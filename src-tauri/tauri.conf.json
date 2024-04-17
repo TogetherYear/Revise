@@ -1,0 +1,149 @@
+{
+    "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+    "build": {
+        "beforeBuildCommand": "npm run build",
+        "beforeDevCommand": "npm run dev",
+        "devPath": "http://localhost:6768",
+        "distDir": "../dist"
+    },
+    "package": {
+        "productName": "Application",
+        "version": "0.1.0"
+    },
+    "tauri": {
+        "allowlist": {
+            "window": {
+                "all": false,
+                "center": true,
+                "create": true,
+                "hide": true,
+                "close": true,
+                "minimize": true,
+                "setAlwaysOnTop": true,
+                "setFocus": true,
+                "setFullscreen": true,
+                "setPosition": true,
+                "setResizable": true,
+                "setSize": true,
+                "show": true,
+                "startDragging": true,
+                "setIgnoreCursorEvents": true
+            },
+            "process": {
+                "all": true
+            },
+            "protocol": {
+                "all": true,
+                "assetScope": [
+                    "**"
+                ]
+            },
+            "path": {
+                "all": true
+            },
+            "fs": {
+                "all": true,
+                "scope": [
+                    "**"
+                ]
+            },
+            "shell": {
+                "all": true
+            },
+            "globalShortcut": {
+                "all": true
+            },
+            "clipboard": {
+                "all": true
+            },
+            "dialog": {
+                "all": true
+            }
+        },
+        "bundle": {
+            "active": true,
+            "category": "DeveloperTool",
+            "copyright": "",
+            "deb": {
+                "depends": []
+            },
+            "externalBin": [],
+            "icon": [
+                "icons/icon.ico"
+            ],
+            "identifier": "com.tauri.build",
+            "longDescription": "",
+            "resources": [
+                "./Extra"
+            ],
+            "shortDescription": "",
+            "targets": "all",
+            "windows": {
+                "webviewInstallMode": {
+                    "silent": true,
+                    "type": "downloadBootstrapper"
+                },
+                "wix": {
+                    "language": "zh-CN"
+                },
+                "nsis": {
+                    "installerIcon": "icons/icon.ico",
+                    "installMode": "perMachine"
+                },
+                "certificateThumbprint": null,
+                "digestAlgorithm": "sha256",
+                "timestampUrl": ""
+            }
+        },
+        "security": {
+            "csp": null
+        },
+        "updater": {
+            "active": false
+        },
+        "windows": [
+            {
+                "fullscreen": false,
+                "height": 560,
+                "minHeight": 280,
+                "resizable": true,
+                "center": true,
+                "title": "Application",
+                "width": 1000,
+                "minWidth": 550,
+                "decorations": false,
+                "focus": true,
+                "label": "Application",
+                "transparent": true,
+                "url": "/#/Application/Operate",
+                "visible": false,
+                "maximizable": false
+            },
+            {
+                "fullscreen": false,
+                "height": 303,
+                "minHeight": 303,
+                "maxHeight": 303,
+                "resizable": false,
+                "center": false,
+                "title": "Tray",
+                "width": 260,
+                "minWidth": 260,
+                "maxWidth": 260,
+                "decorations": false,
+                "focus": false,
+                "label": "Tray",
+                "transparent": true,
+                "url": "/#/Tray",
+                "visible": false,
+                "alwaysOnTop": true,
+                "skipTaskbar": true,
+                "maximizable": false
+            }
+        ],
+        "systemTray": {
+            "iconPath": "icons/tray.ico",
+            "iconAsTemplate": true
+        }
+    }
+}

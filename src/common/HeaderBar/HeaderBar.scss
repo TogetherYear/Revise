@@ -1,0 +1,61 @@
+.HeaderBar {
+    position: absolute;
+    height: 26px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 14;
+
+    .Btn {
+        position: absolute;
+        height: 100%;
+        top: 0;
+        right: 0;
+        text-align: right;
+        z-index: 16;
+
+        .Min {
+            position: relative;
+            display: inline-block;
+            height: 100%;
+            top: 0;
+            width: 34px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #474748;
+            }
+
+            .Icon {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                height: 50%;
+            }
+        }
+
+        .Max {
+            @extend .Min;
+        }
+
+        .Close {
+            @extend .Max;
+
+            &:hover {
+                background-color: #d61425;
+            }
+        }
+    }
+
+    .Drag {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 15;
+    }
+}
