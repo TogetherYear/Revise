@@ -1,5 +1,8 @@
 import { onMounted, onUnmounted } from "vue"
-import { Area } from "./Area/Area"
+import { Area } from "./Components/Area/Area"
+import { Hierarchy } from "./Components/Hierarchy/Hierarchy"
+import { Inspector } from "./Components/Inspector/Inspector"
+import { Resource } from "./Components/Resource/Resource"
 
 class Operate {
     public constructor() {
@@ -7,6 +10,12 @@ class Operate {
     }
 
     public area = new Area(this)
+
+    public hierarchy = new Hierarchy(this)
+
+    public inspector = new Inspector(this)
+
+    public resource = new Resource(this)
 
     public InitStates() {
         return {

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { inject } from 'vue';
-import { Operate } from '../Operate';
+import { Operate } from '../../Operate';
 
 const instance = inject('instance') as Operate
 

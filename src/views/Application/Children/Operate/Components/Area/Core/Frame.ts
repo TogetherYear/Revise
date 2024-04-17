@@ -1,4 +1,4 @@
-import { OperateType } from "../../Type";
+import { OperateType } from "../../../Type";
 import { Border } from "./Border";
 import { Entity } from "./Entity";
 import * as L from 'leafer-ui'

@@ -1,5 +1,5 @@
 import { EventSystem } from "@/libs/EventSystem";
-import { OperateType } from "../../Type";
+import { OperateType } from "../../../Type";
 import * as L from 'leafer-ui'
 import { Time } from "@/libs/Time";
 

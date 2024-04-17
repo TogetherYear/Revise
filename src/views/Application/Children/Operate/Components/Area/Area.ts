@@ -1,5 +1,5 @@
 import { onMounted, onUnmounted, ref } from "vue"
-import { Operate } from "../Operate"
+import { Operate } from "../../Operate"
 import * as L from 'leafer-ui'
 import { Frame } from "./Core/Frame"
 import { Image } from "./Core/Image"
@@ -51,10 +51,6 @@ class Area {
                 zoom: { max: 50, min: 0.02 },
                 // type: 'draw',
             })
-
-            this.leafer.on_(L.PointerEvent.CLICK, () => {
-                Debug.Log(this.leafer.getWorldPointByPage(this.leafer.cursorPoint).x)
-            }, this)
         }
     }
 
