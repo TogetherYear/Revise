@@ -1,5 +1,5 @@
-import { OperateType } from "../../../Type";
-import { Entity } from "./Entity";
+import { OperateType } from "../../../../Type";
+import { Entity } from "../Base/Entity";
 import * as L from 'leafer-ui'
 
 class Border extends Entity {

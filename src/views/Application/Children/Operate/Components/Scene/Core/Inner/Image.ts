@@ -1,5 +1,5 @@
-import { OperateType } from "../../../Type";
-import { Entity } from "./Entity";
+import { OperateType } from "../../../../Type";
+import { Entity } from "../Base/Entity";
 import * as L from 'leafer-ui'
 
 class Image extends Entity {
@@ -49,8 +49,8 @@ class Image extends Entity {
         }
         else {
             super.OnDragging(e)
-            this.root.x = this.dragStartOrigin.frameX + (e.x - this.dragStartOrigin.dragX) / (this.O.area.leafer.scale as number)
-            this.root.y = this.dragStartOrigin.frameY + (e.y - this.dragStartOrigin.dragY) / (this.O.area.leafer.scale as number)
+            this.root.x = this.dragStartOrigin.frameX + (e.x - this.dragStartOrigin.dragX) / (this.O.scene.leafer.scale as number)
+            this.root.y = this.dragStartOrigin.frameY + (e.y - this.dragStartOrigin.dragY) / (this.O.scene.leafer.scale as number)
         }
 
     }

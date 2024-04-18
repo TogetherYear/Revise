@@ -1,5 +1,5 @@
-import { OperateType } from "../../../Type";
-import { Border } from "./Border";
+import { OperateType } from "../../../../Type";
+import { Border } from "../Inner/Border";
 import { Entity } from "./Entity";
 import * as L from 'leafer-ui'
 
@@ -34,21 +34,21 @@ class Frame extends Entity {
     public override Create() {
         super.Create()
         this.root = new L.Box({
-            width: this.O.width || this.O.area.leafer.width,
-            height: this.O.height || this.O.area.leafer.height,
+            width: this.O.width || this.O.scene.leafer.width,
+            height: this.O.height || this.O.scene.leafer.height,
             fill: this.O.fill || 'transparent',
             overflow: this.O.overflow || 'hide',
             zIndex: this.O.zIndex,
             x: this.O.x || 0,
             y: this.O.y || 0,
         })
-        this.O.area.leafer.add(this.root)
+        this.O.scene.leafer.add(this.root)
 
         this.border = new Border({
-            area: this.O.area,
+            scene: this.O.scene,
             frame: this
         })
-        this.O.area.frames.set(this.id, this)
+        this.O.scene.frames.set(this.id, this)
     }
 
     public override ListenEvents() {
@@ -61,8 +61,8 @@ class Frame extends Entity {
 
     public override Delete() {
         super.Delete()
-        this.O.area.leafer.remove(this.root)
-        this.O.area.frames.delete(this.id)
+        this.O.scene.leafer.remove(this.root)
+        this.O.scene.frames.delete(this.id)
         for (let c of this.children) {
             c[1].Delete()
         }
@@ -94,8 +94,8 @@ class Frame extends Entity {
 
     public override OnDragging(e: L.DragEvent): void {
         super.OnDragging(e)
-        this.root.x = this.dragStartOrigin.frameX + (e.x - this.dragStartOrigin.dragX) / (this.O.area.leafer.scale as number)
-        this.root.y = this.dragStartOrigin.frameY + (e.y - this.dragStartOrigin.dragY) / (this.O.area.leafer.scale as number)
+        this.root.x = this.dragStartOrigin.frameX + (e.x - this.dragStartOrigin.dragX) / (this.O.scene.leafer.scale as number)
+        this.root.y = this.dragStartOrigin.frameY + (e.y - this.dragStartOrigin.dragY) / (this.O.scene.leafer.scale as number)
     }
 
     public override OnDragStart(e: L.DragEvent) {

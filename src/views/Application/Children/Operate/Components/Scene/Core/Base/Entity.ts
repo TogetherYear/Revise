@@ -1,5 +1,5 @@
 import { EventSystem } from "@/libs/EventSystem";
-import { OperateType } from "../../../Type";
+import { OperateType } from "../../../../Type";
 import * as L from 'leafer-ui'
 import { Time } from "@/libs/Time";
 
@@ -64,9 +64,9 @@ abstract class Entity extends EventSystem {
      * 监听事件 需要自己在构造函数调用 此处用来拓展
      */
     public ListenEvents() {
-        this.lisenerIds.push(this.O.area.leafer.on_(L.ResizeEvent.RESIZE, this.OnLeaferResieze, this))
-        this.lisenerIds.push(this.O.area.leafer.on_(L.KeyEvent.DOWN, this.OnKeyDown, this))
-        this.lisenerIds.push(this.O.area.leafer.on_(L.KeyEvent.UP, this.OnKeyUp, this))
+        this.lisenerIds.push(this.O.scene.leafer.on_(L.ResizeEvent.RESIZE, this.OnLeaferResieze, this))
+        this.lisenerIds.push(this.O.scene.leafer.on_(L.KeyEvent.DOWN, this.OnKeyDown, this))
+        this.lisenerIds.push(this.O.scene.leafer.on_(L.KeyEvent.UP, this.OnKeyUp, this))
         this.lisenerIds.push(this.root.on_(L.PointerEvent.DOWN, this.OnPointerDown, this))
         this.lisenerIds.push(this.root.on_(L.PointerEvent.UP, this.OnPointerUp, this))
         this.lisenerIds.push(this.root.on_(L.PointerEvent.LEAVE, this.OnPointerLeave, this))

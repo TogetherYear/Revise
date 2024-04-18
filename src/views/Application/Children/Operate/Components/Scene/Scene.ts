@@ -1,8 +1,8 @@
 import { onMounted, onUnmounted, ref } from "vue"
 import { Operate } from "../../Operate"
 import * as L from 'leafer-ui'
-import { Frame } from "./Core/Frame"
-import { Image } from "./Core/Image"
+import { Frame } from "./Core/Base/Frame"
+import { Image } from "./Core/Inner/Image"
 
 class Scene {
     public constructor(parent: Operate) {
@@ -69,14 +69,14 @@ class Scene {
             for (let f of files) {
                 if (this.IsImage(f.path)) {
                     const imageFrame = new Frame({
-                        area: this,
+                        scene: this,
                         width: 500,
                         height: 500,
                         x: position.x,
                         y: position.y,
                     })
                     imageFrame.AddChild(new Image({
-                        area: this,
+                        scene: this,
                         frame: imageFrame,
                         url: Renderer.Resource.ConvertFileSrcToTauri(f.path),
                         OnLoad: (e) => {
@@ -103,14 +103,14 @@ class Scene {
 
     private Test() {
         const f1 = new Frame({
-            area: this,
+            scene: this,
             width: 500,
             height: 500,
             fill: "#cc000022"
         })
 
         const f2 = new Frame({
-            area: this,
+            scene: this,
             width: 500,
             height: 500,
             x: 200,
@@ -119,7 +119,7 @@ class Scene {
         })
 
         f2.AddChild(new Image({
-            area: this,
+            scene: this,
             frame: f2,
             url: Renderer.Resource.ConvertFileSrcToTauri("D:/Web/New/Revise/src-tauri/Extra/Images/icon.ico"),
         }))

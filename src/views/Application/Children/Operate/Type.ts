@@ -1,12 +1,20 @@
 import * as L from 'leafer-ui'
-import { Frame } from './Components/Scene/Core/Frame'
+import { Frame } from './Components/Scene/Core/Base/Frame'
 import { Scene } from './Components/Scene/Scene'
 
 export namespace OperateType {
-    export interface IEntity {
-        area: Scene,
+
+    export interface IBase {
         zIndex?: number,
-        name?: string
+        name?: string,
+        scene: Scene,
+    }
+
+    export interface IInner {
+        frame: Frame,
+    }
+    export interface IEntity extends IBase {
+
     }
 
     export interface IFrame extends IEntity {
@@ -18,15 +26,13 @@ export namespace OperateType {
         overflow?: 'show' | 'hide'
     }
 
-    export interface IBorder extends IEntity {
-        frame: Frame,
+    export interface IBorder extends IEntity, IInner {
         color?: string,
         radiu?: number
     }
 
-    export interface IImage extends IEntity {
+    export interface IImage extends IEntity, IInner {
         url: string,
-        frame: Frame,
         x?: number,
         y?: number,
         OnLoad?: (e: { width: number, height: number }) => void
