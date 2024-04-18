@@ -1,21 +1,22 @@
 <script lang="ts" setup>
 import { inject } from 'vue';
 import { Operate } from '../../Operate';
+import DragBarVue from '../Tool/DragBar/DragBar.vue';
 
 const instance = inject('instance') as Operate
 
 const {
 
-} = instance.hierarchy.InitStates()
+} = instance.resource.InitStates()
 
-instance.hierarchy.InitHooks()
+instance.resource.InitHooks()
 
-instance.hierarchy.Run()
+instance.resource.Run()
 </script>
 
 <template>
     <div class="Resource">
-
+        <DragBarVue class="Bar"></DragBarVue>
     </div>
 </template>
 

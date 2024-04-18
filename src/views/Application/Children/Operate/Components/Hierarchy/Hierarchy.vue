@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { inject } from 'vue';
 import { Operate } from '../../Operate';
+import DragBarVue from '../Tool/DragBar/DragBar.vue';
 
 const instance = inject('instance') as Operate
 
@@ -15,7 +16,7 @@ instance.hierarchy.Run()
 
 <template>
     <div class="Hierarchy">
-
+        <DragBarVue class="Bar"></DragBarVue>
     </div>
 </template>
 
