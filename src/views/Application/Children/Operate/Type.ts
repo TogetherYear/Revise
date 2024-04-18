@@ -4,6 +4,13 @@ import { Scene } from './Components/Scene/Scene'
 
 export namespace OperateType {
 
+    export enum Layout {
+        Scene,
+        Hierarchy,
+        Inspector,
+        Resource
+    }
+
     export interface IBase {
         zIndex?: number,
         name?: string,

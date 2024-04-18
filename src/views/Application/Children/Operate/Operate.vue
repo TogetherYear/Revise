@@ -12,7 +12,8 @@ const instance = new Operate()
 provide('instance', instance)
 
 const {
-
+    positions,
+    operateDom,
 } = instance.InitStates()
 
 instance.InitHooks()
@@ -21,7 +22,7 @@ instance.Run()
 </script>
 
 <template>
-    <div class="Operate">
+    <div class="Operate" ref="operateDom">
         <SceneVue></SceneVue>
         <HierarchyVue></HierarchyVue>
         <InspectorVue></InspectorVue>

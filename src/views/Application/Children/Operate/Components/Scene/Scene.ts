@@ -72,8 +72,8 @@ class Scene {
                         scene: this,
                         width: 500,
                         height: 500,
-                        x: position.x,
-                        y: position.y,
+                        x: 500,
+                        y: 500,
                     })
                     imageFrame.AddChild(new Image({
                         scene: this,
@@ -84,6 +84,8 @@ class Scene {
                             imageFrame.R.height = e.height
                             imageFrame.B.R.width = e.width
                             imageFrame.B.R.height = e.height
+                            imageFrame.R.x = position.x - e.width / 2
+                            imageFrame.R.y = position.y - e.height / 2
                         },
                         OnError: () => {
                             Message.error(`图片加载失败：${f.path.split('\\').splice(-1)[0]}`)

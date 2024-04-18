@@ -1,5 +1,6 @@
 import { onMounted, onUnmounted, ref } from "vue"
 import { Operate } from "../../Operate"
+import { OperateType } from "../../Type"
 
 class Hierarchy {
     public constructor(parent: Operate) {
@@ -10,7 +11,7 @@ class Hierarchy {
 
     public InitStates() {
         return {
-
+            OnResize: this.OnResize.bind(this)
         }
     }
 
@@ -30,6 +31,10 @@ class Hierarchy {
 
     protected Destroy() {
 
+    }
+
+    public OnResize(e: { x: number, y: number }) {
+        this.parent.OnLayoutResize(e, OperateType.Layout.Hierarchy)
     }
 }
 

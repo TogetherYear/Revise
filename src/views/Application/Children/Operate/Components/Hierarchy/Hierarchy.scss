@@ -1,12 +1,11 @@
 .Hierarchy {
     position: absolute;
-    width: 260px;
-    height: calc(100% - 200px);
-    top: 0;
-    left: 0;
     background-color: #2b2b2b;
     box-sizing: border-box;
     border: 1px solid #444444;
+    border-bottom: none;
+    left: 0px;
+    top: 0px;
 
     .Bar {
         position: absolute;
