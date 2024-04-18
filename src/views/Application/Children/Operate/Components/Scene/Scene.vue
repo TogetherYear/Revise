@@ -6,19 +6,19 @@ const instance = inject('instance') as Operate
 
 const {
     dom,
-} = instance.area.InitStates()
+} = instance.scene.InitStates()
 
-instance.area.InitHooks()
+instance.scene.InitHooks()
 
-instance.area.Run()
+instance.scene.Run()
 </script>
 
 <template>
-    <div class="Area">
+    <div class="Scene">
         <span class="Leafer" ref="dom"></span>
     </div>
 </template>
 
 <style lang="scss" scoped>
-@import "./Area.scss"
+@import "./Scene.scss"
 </style>

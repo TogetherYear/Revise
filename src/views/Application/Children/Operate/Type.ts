@@ -1,10 +1,10 @@
 import * as L from 'leafer-ui'
-import { Frame } from './Area/Core/Frame'
-import { Area } from './Area/Area'
+import { Frame } from './Components/Scene/Core/Frame'
+import { Scene } from './Components/Scene/Scene'
 
 export namespace OperateType {
     export interface IEntity {
-        area: Area,
+        area: Scene,
         zIndex?: number,
         name?: string
     }

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Operate } from './Operate';
 
-import AreaVue from './Components/Area/Area.vue'
+import SceneVue from './Components/Scene/Scene.vue'
 import HierarchyVue from './Components/Hierarchy/Hierarchy.vue'
 import InspectorVue from './Components/Inspector/Inspector.vue'
 import ResourceVue from './Components/Resource/Resource.vue'
@@ -22,7 +22,7 @@ instance.Run()
 
 <template>
     <div class="Operate">
-        <AreaVue></AreaVue>
+        <SceneVue></SceneVue>
         <HierarchyVue></HierarchyVue>
         <InspectorVue></InspectorVue>
         <ResourceVue></ResourceVue>

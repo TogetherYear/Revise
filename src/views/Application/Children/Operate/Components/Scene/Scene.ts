@@ -4,7 +4,7 @@ import * as L from 'leafer-ui'
 import { Frame } from "./Core/Frame"
 import { Image } from "./Core/Image"
 
-class Area {
+class Scene {
     public constructor(parent: Operate) {
         this.parent = parent
     }
@@ -126,4 +126,4 @@ class Area {
     }
 }
 
-export { Area }
+export { Scene }

@@ -1,5 +1,5 @@
 import { onMounted, onUnmounted } from "vue"
-import { Area } from "./Components/Area/Area"
+import { Scene } from "./Components/Scene/Scene"
 import { Hierarchy } from "./Components/Hierarchy/Hierarchy"
 import { Inspector } from "./Components/Inspector/Inspector"
 import { Resource } from "./Components/Resource/Resource"
@@ -9,7 +9,7 @@ class Operate {
 
     }
 
-    public area = new Area(this)
+    public scene = new Scene(this)
 
     public hierarchy = new Hierarchy(this)
 
