@@ -40,7 +40,7 @@ class Scene {
     }
 
     protected Destroy() {
-
+        Renderer.RemoveListen(Renderer.RendererEvent.FileDrop, this, this.OnFileDrop)
     }
 
     private CreateLeafer() {
@@ -114,16 +114,18 @@ class Scene {
     private Test() {
         const f1 = new Frame({
             scene: this,
-            width: 500,
-            height: 500,
+            width: 200,
+            height: 200,
+            x: 100,
+            y: 100,
             fill: "#cc000022"
         })
 
         const f2 = new Frame({
             scene: this,
-            width: 500,
-            height: 500,
-            x: 200,
+            width: 200,
+            height: 200,
+            x: 400,
             y: 200,
             fill: "#00cc0022"
         })

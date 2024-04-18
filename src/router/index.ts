@@ -22,9 +22,26 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Application/Application.vue'),
         children: [
             {
+                path: 'Home',
+                name: 'Home',
+                component: () => import('@/views/Application/Children/Home/Home.vue'),
+            },
+            {
                 path: 'Operate',
                 name: 'Operate',
                 component: () => import('@/views/Application/Children/Operate/Operate.vue'),
+            }
+        ]
+    },
+    {
+        path: '/Tool',
+        name: 'Tool',
+        component: () => import('@/views/Tool/Tool.vue'),
+        children: [
+            {
+                path: 'Suspend',
+                name: 'Suspend',
+                component: () => import('@/views/Tool/Children/Suspend/Suspend.vue'),
             }
         ]
     },

@@ -85,7 +85,7 @@ class Operate {
 
     public Run() {
         onMounted(() => {
-
+            this.ListenEvents()
         })
 
         onUnmounted(() => {
@@ -94,7 +94,18 @@ class Operate {
     }
 
     protected Destroy() {
+        Renderer.RemoveListen(Renderer.RendererEvent.Resize, this, this.OnResize)
+    }
 
+    private ListenEvents() {
+        Renderer.AddListen(Renderer.RendererEvent.Resize, this, this.OnResize)
+    }
+
+    private OnResize(e: IT.IRendererSendMessage) {
+        this.positions.inspector.height = `${this.OD.offsetHeight - this.RD.offsetHeight}px`
+        this.positions.hierarchy.height = `${this.OD.offsetHeight - this.RD.offsetHeight}px`
+        this.positions.scene.width = `${this.OD.offsetWidth - this.HD.offsetWidth - this.ID.offsetWidth}px`
+        this.positions.scene.height = `${this.OD.offsetHeight - this.RD.offsetHeight}px`
     }
 
     public OnLayoutResize(delta: { x: number, y: number }, layout: OperateType.Layout) {

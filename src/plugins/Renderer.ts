@@ -592,6 +592,7 @@ class Renderer extends EventSystem {
             WidgetDestroy: 'WidgetDestroy',
             WidgetEmpty: 'WidgetEmpty',
             FileDrop: 'FileDrop',
+            Resize: 'Resize',
         }
     }
 
@@ -614,6 +615,7 @@ class Renderer extends EventSystem {
         this.AddKey(this.RendererEvent.WidgetDestroy)
         this.AddKey(this.RendererEvent.WidgetEmpty)
         this.AddKey(this.RendererEvent.FileDrop)
+        this.AddKey(this.RendererEvent.Resize)
     }
 
     private ListenEvents() {
@@ -704,6 +706,13 @@ class Renderer extends EventSystem {
                 else {
                     localStorage.setItem("width", `${e.payload.width}`)
                     localStorage.setItem("height", `${e.payload.height}`)
+                    this.Emit(this.RendererEvent.Resize, {
+                        event: this.RendererEvent.Resize,
+                        extra: {
+                            width: e.payload.width,
+                            height: e.payload.height,
+                        }
+                    })
                 }
             })
         }

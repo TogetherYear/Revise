@@ -586,6 +586,7 @@ declare namespace Renderer {
         WidgetDestroy = 'WidgetDestroy',
         WidgetEmpty = 'WidgetEmpty',
         FileDrop = 'FileDrop',
+        Resize = 'Resize',
     }
 
     export const CaptureTempInputPath: Promise<string>

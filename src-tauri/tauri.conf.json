@@ -115,7 +115,7 @@
                 "focus": true,
                 "label": "Application",
                 "transparent": true,
-                "url": "/#/Application/Operate",
+                "url": "/#/Application/Home",
                 "visible": false,
                 "maximizable": false
             },
