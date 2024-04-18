@@ -82,10 +82,18 @@ class Scene {
                         OnLoad: (e) => {
                             imageFrame.R.width = e.width
                             imageFrame.R.height = e.height
-                            imageFrame.B.R.width = e.width
-                            imageFrame.B.R.height = e.height
                             imageFrame.R.x = position.x - e.width / 2
                             imageFrame.R.y = position.y - e.height / 2
+                            imageFrame.B.FixPosition()
+                            imageFrame.B.Hide()
+                            imageFrame.Cs.lt.FixPosition()
+                            imageFrame.Cs.lt.Hide()
+                            imageFrame.Cs.lb.FixPosition()
+                            imageFrame.Cs.lb.Hide()
+                            imageFrame.Cs.rt.FixPosition()
+                            imageFrame.Cs.rt.Hide()
+                            imageFrame.Cs.rb.FixPosition()
+                            imageFrame.Cs.rb.Hide()
                         },
                         OnError: () => {
                             Message.error(`图片加载失败：${f.path.split('\\').splice(-1)[0]}`)

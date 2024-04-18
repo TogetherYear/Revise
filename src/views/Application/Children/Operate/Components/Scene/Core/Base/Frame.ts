@@ -1,5 +1,6 @@
 import { OperateType } from "../../../../Type";
 import { Border } from "../Inner/Border";
+import { Corner } from "../Inner/Corner";
 import { Entity } from "./Entity";
 import * as L from 'leafer-ui'
 
@@ -16,8 +17,29 @@ class Frame extends Entity {
 
     protected border!: Border
 
+    protected corners: {
+        lt: Corner | null,
+        rt: Corner | null,
+        lb: Corner | null,
+        rb: Corner | null
+    } = {
+            lt: null,
+            rt: null,
+            lb: null,
+            rb: null,
+        }
+
     public get B() {
         return this.border
+    }
+
+    public get Cs() {
+        return this.corners as {
+            lt: Corner,
+            rt: Corner,
+            lb: Corner
+            rb: Corner
+        }
     }
 
     protected get O() {
@@ -44,11 +66,40 @@ class Frame extends Entity {
         })
         this.O.scene.leafer.add(this.root)
 
+        this.CreateBorder()
+        this.CreateCorners()
+
+        this.O.scene.frames.set(this.id, this)
+    }
+
+    private CreateBorder() {
         this.border = new Border({
             scene: this.O.scene,
             frame: this
         })
-        this.O.scene.frames.set(this.id, this)
+    }
+
+    private CreateCorners() {
+        this.corners.lt = new Corner({
+            scene: this.O.scene,
+            frame: this,
+            type: OperateType.CornerType.LT
+        })
+        this.corners.lb = new Corner({
+            scene: this.O.scene,
+            frame: this,
+            type: OperateType.CornerType.LB
+        })
+        this.corners.rt = new Corner({
+            scene: this.O.scene,
+            frame: this,
+            type: OperateType.CornerType.RT
+        })
+        this.corners.rb = new Corner({
+            scene: this.O.scene,
+            frame: this,
+            type: OperateType.CornerType.RB
+        })
     }
 
     public override ListenEvents() {
@@ -63,6 +114,11 @@ class Frame extends Entity {
         super.Delete()
         this.O.scene.leafer.remove(this.root)
         this.O.scene.frames.delete(this.id)
+        this.border.Delete()
+        this.corners.lt?.Delete()
+        this.corners.lb?.Delete()
+        this.corners.rt?.Delete()
+        this.corners.rb?.Delete()
         for (let c of this.children) {
             c[1].Delete()
         }
@@ -85,11 +141,19 @@ class Frame extends Entity {
     public override OnPointerEnter(e: L.PointerEvent): void {
         super.OnPointerEnter(e)
         this.border.Show()
+        this.corners.lt?.Show()
+        this.corners.lb?.Show()
+        this.corners.rt?.Show()
+        this.corners.rb?.Show()
     }
 
     public override OnPointerLeave(e: L.PointerEvent): void {
         super.OnPointerLeave(e)
         this.border.Hide()
+        this.corners.lt?.Hide()
+        this.corners.lb?.Hide()
+        this.corners.rt?.Hide()
+        this.corners.rb?.Hide()
     }
 
     public override OnDragging(e: L.DragEvent): void {
@@ -104,6 +168,14 @@ class Frame extends Entity {
         this.dragStartOrigin.frameY = this.root.y
         this.dragStartOrigin.dragX = e.x
         this.dragStartOrigin.dragY = e.y
+    }
+
+    public OnResize() {
+        this.border.FixPosition()
+        this.corners.lt?.FixPosition()
+        this.corners.lb?.FixPosition()
+        this.corners.rt?.FixPosition()
+        this.corners.rb?.FixPosition()
     }
 }
 

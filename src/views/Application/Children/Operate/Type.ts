@@ -38,6 +38,17 @@ export namespace OperateType {
         radiu?: number
     }
 
+    export interface ICorner extends IEntity, IInner {
+        type: CornerType
+    }
+
+    export enum CornerType {
+        LT,
+        RT,
+        LB,
+        RB
+    }
+
     export interface IImage extends IEntity, IInner {
         url: string,
         x?: number,

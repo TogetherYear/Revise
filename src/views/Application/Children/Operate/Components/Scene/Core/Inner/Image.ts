@@ -87,6 +87,11 @@ class Image extends Entity {
             this.effect = false
         }
     }
+
+    public override Delete() {
+        super.Delete()
+        this.O.frame.R.remove(this.R)
+    }
 }
 
 export { Image }
