@@ -1,6 +1,7 @@
 import { onMounted, onUnmounted, ref } from "vue"
 import * as L from 'leafer-ui'
 import { BackFrame } from "./Core/BackFrame"
+import { Mathf } from "@/libs/Mathf"
 
 class Suspend {
     public constructor() {
@@ -9,6 +10,10 @@ class Suspend {
 
     private isSearchMonitor = true
 
+    private isMouseDown = false
+
+    private isFirstDown = true
+
     private searchMonitorTimer: NodeJS.Timeout | null = null
 
     private current!: {
@@ -16,6 +21,13 @@ class Suspend {
         y: number,
         width: number,
         height: number
+    }
+
+    private move = {
+        startX: 0,
+        startY: 0,
+        eraserX: 0,
+        eraserY: 0,
     }
 
     private dom = ref<HTMLSpanElement | null>(null)
@@ -86,12 +98,36 @@ class Suspend {
     private ListenEvents() {
         this.leafer.on_(L.PointerEvent.DOWN, this.OnMouseDown, this)
         this.leafer.on_(L.KeyEvent.DOWN, this.OnKeyDown, this)
+        this.leafer.on_(L.PointerEvent.UP, this.OnMouseUp, this)
+        this.leafer.on_(L.PointerEvent.MOVE, this.OnMouseMove, this)
     }
 
     private async OnMouseDown(e: L.PointerEvent) {
         if (this.isSearchMonitor && this.searchMonitorTimer) {
             clearInterval(this.searchMonitorTimer)
             this.searchMonitorTimer = null
+        }
+        if (this.isFirstDown) {
+            this.move.startX = e.x
+            this.move.startY = e.y
+            this.move.eraserX = e.x
+            this.move.eraserY = e.y
+        }
+        this.isMouseDown = true
+    }
+
+    private OnMouseUp(e: L.PointerEvent) {
+        this.isFirstDown = false
+        this.isMouseDown = false
+    }
+
+    private OnMouseMove(e: L.PointerEvent) {
+        if (this.isFirstDown && this.isMouseDown) {
+            const delta = {
+                x: e.x - this.move.startX,
+                y: e.y - this.move.startY
+            }
+            this.back.UpdateEraser(this.move.eraserX, this.move.eraserY, Mathf.Clamp(0, this.back.F.width - this.move.eraserX, delta.x), Mathf.Clamp(0, this.back.F.height - this.move.eraserY, delta.y))
         }
     }
 

@@ -97,7 +97,6 @@ class BackCorner {
             y: e.y - this.drag.startY,
         }
         this.UpdateErasetTransform(delta)
-        this.UpdateVisibility()
     }
 
     private UpdateErasetTransform(delta: { x: number, y: number }) {
@@ -124,15 +123,6 @@ class BackCorner {
         }
         else {
             this.O.backFrame.UpdateEraser(this.drag.eraserX, this.drag.eraserY, this.drag.eraserWidth + delta.x, this.drag.eraserHeight + delta.y)
-        }
-    }
-
-    private UpdateVisibility() {
-        if (this.O.backFrame.FE.width < 300 || this.O.backFrame.FE.height < 300) {
-            this.O.backFrame.UpdateCornerVisible(false)
-        }
-        else {
-            this.O.backFrame.UpdateCornerVisible(true)
         }
     }
 

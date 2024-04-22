@@ -141,8 +141,8 @@ class BackFrame {
     public UpdateEraser(x: number, y: number, width: number, height: number) {
         this.frameEraser.x = Mathf.Clamp(0, this.F.width - this.FE.width, x)
         this.frameEraser.y = Mathf.Clamp(0, this.F.height - this.FE.height, y)
-        this.frameEraser.width = width
-        this.frameEraser.height = height
+        this.frameEraser.width = Mathf.Clamp(0, this.F.width - this.frameEraser.x, width)
+        this.frameEraser.height = Mathf.Clamp(0, this.F.height - this.frameEraser.y, height)
         this.corners.leftTop?.UpdatePosition()
         this.corners.leftCenter?.UpdatePosition()
         this.corners.leftBottom?.UpdatePosition()
@@ -151,6 +151,12 @@ class BackFrame {
         this.corners.rightTop?.UpdatePosition()
         this.corners.rightCenter?.UpdatePosition()
         this.corners.rightBottom?.UpdatePosition()
+        if (this.FE.width < 300 || this.FE.height < 300) {
+            this.UpdateCornerVisible(false)
+        }
+        else {
+            this.UpdateCornerVisible(true)
+        }
     }
 
     public OnDragging(e: L.DragEvent) {
@@ -161,12 +167,6 @@ class BackFrame {
             y: e.y - this.drag.startY,
         }
         this.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY + delta.y, this.drag.eraserWidth, this.drag.eraserHeight)
-        if (this.FE.width < 300 || this.FE.height < 300) {
-            this.UpdateCornerVisible(false)
-        }
-        else {
-            this.UpdateCornerVisible(true)
-        }
     }
 
     public OnDragStart(e: L.DragEvent) {
