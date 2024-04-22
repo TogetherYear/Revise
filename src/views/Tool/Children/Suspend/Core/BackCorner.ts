@@ -41,7 +41,7 @@ class BackCorner {
             stroke: '#eeeeeeff',
             strokeWidth: 2,
             around: 'center',
-            cursor: 'grab'
+            cursor: 'grab',
         })
         this.O.backFrame.F.add(this.circle)
     }
@@ -50,6 +50,28 @@ class BackCorner {
         this.circle.on_(L.DragEvent.DRAG, this.OnDragging, this)
         this.circle.on_(L.DragEvent.START, this.OnDragStart, this)
         this.circle.on_(L.DragEvent.END, this.OnDragEnd, this)
+        this.circle.on_(L.PointerEvent.ENTER, this.OnEnter, this)
+        this.circle.on_(L.PointerEvent.LEAVE, this.OnLeave, this)
+    }
+
+    private OnEnter(e: L.PointerEvent) {
+        e.stop()
+        e.stopDefault()
+        this.circle.width = 20
+        this.circle.height = 20
+        this.circle.strokeWidth = 4
+        this.circle.fill = '#00000000'
+        this.circle.stroke = '#ff0000ff'
+    }
+
+    private OnLeave(e: L.PointerEvent) {
+        e.stop()
+        e.stopDefault()
+        this.circle.width = 14
+        this.circle.height = 14
+        this.circle.strokeWidth = 2
+        this.circle.fill = '#000000ff'
+        this.circle.stroke = '#eeeeeeff'
     }
 
     private GetEraserTransformPosition(x: number, y: number) {
