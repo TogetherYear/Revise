@@ -8,4 +8,12 @@ export namespace SuspendType {
     export enum FunctionBtnType {
         Fix
     }
+
+    export interface IFixItem {
+        id: number,
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    }
 }
