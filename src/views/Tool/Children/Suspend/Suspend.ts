@@ -149,6 +149,9 @@ class Suspend {
             }
             this.back.UpdateEraser(this.move.eraserX, this.move.eraserY, Mathf.Clamp(0, this.back.F.width - this.move.eraserX, delta.x), Mathf.Clamp(0, this.back.F.height - this.move.eraserY, delta.y))
         }
+        else {
+
+        }
     }
 
     public OnDragEnd(e: L.DragEvent) {

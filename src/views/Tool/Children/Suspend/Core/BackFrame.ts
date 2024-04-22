@@ -98,7 +98,7 @@ class BackFrame {
             y: 0,
             width: this.frame.width,
             height: this.frame.height,
-            fill: 'rgba(0,0,0,0.4)',
+            fill: 'rgba(0,0,0,0.5)',
         })
         this.frameEraser = new L.Rect({
             x: 0,
