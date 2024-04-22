@@ -1,5 +1,6 @@
 import * as L from 'leafer-ui'
 import { BackFrame } from './BackFrame'
+import { Mathf } from '@/libs/Mathf'
 
 type BackCornerOptions = {
     backFrame: BackFrame,
@@ -33,15 +34,15 @@ class BackCorner {
     private Create() {
         const position = this.TransformPosition()
         this.circle = new L.Ellipse({
-            width: 14,
-            height: 14,
+            width: 10,
+            height: 10,
             x: position.x,
             y: position.y,
             fill: '#000000ff',
             stroke: '#eeeeeeff',
             strokeWidth: 2,
             around: 'center',
-            cursor: 'grab',
+            cursor: this.TransformCursor(),
         })
         this.O.backFrame.F.add(this.circle)
     }
@@ -57,21 +58,11 @@ class BackCorner {
     private OnEnter(e: L.PointerEvent) {
         e.stop()
         e.stopDefault()
-        this.circle.width = 20
-        this.circle.height = 20
-        this.circle.strokeWidth = 4
-        this.circle.fill = '#000000ff'
-        this.circle.stroke = '#ff0000ff'
     }
 
     private OnLeave(e: L.PointerEvent) {
         e.stop()
         e.stopDefault()
-        this.circle.width = 14
-        this.circle.height = 14
-        this.circle.strokeWidth = 2
-        this.circle.fill = '#000000ff'
-        this.circle.stroke = '#eeeeeeff'
     }
 
     private GetEraserTransformPosition(x: number, y: number) {
@@ -80,28 +71,55 @@ class BackCorner {
 
     private TransformPosition() {
         if (this.O.type == 'LeftTop') {
-            return this.GetEraserTransformPosition(0, 0)
+            return this.GetEraserTransformPosition(-1, -1)
         }
         else if (this.O.type == 'LeftCenter') {
-            return this.GetEraserTransformPosition(0, this.O.backFrame.FE.height / 2)
+            return this.GetEraserTransformPosition(-1, this.O.backFrame.FE.height / 2)
         }
         else if (this.O.type == 'LeftBottom') {
-            return this.GetEraserTransformPosition(0, this.O.backFrame.FE.height)
+            return this.GetEraserTransformPosition(-1, this.O.backFrame.FE.height + 1)
         }
         else if (this.O.type == 'CenterTop') {
-            return this.GetEraserTransformPosition(this.O.backFrame.FE.width / 2, 0)
+            return this.GetEraserTransformPosition(this.O.backFrame.FE.width / 2, -1)
         }
         else if (this.O.type == 'CenterBottom') {
-            return this.GetEraserTransformPosition(this.O.backFrame.FE.width / 2, this.O.backFrame.FE.height)
+            return this.GetEraserTransformPosition(this.O.backFrame.FE.width / 2, this.O.backFrame.FE.height + 1)
         }
         else if (this.O.type == 'RightTop') {
-            return this.GetEraserTransformPosition(this.O.backFrame.FE.width, 0)
+            return this.GetEraserTransformPosition(this.O.backFrame.FE.width + 1, -1)
         }
         else if (this.O.type == 'RightCenter') {
-            return this.GetEraserTransformPosition(this.O.backFrame.FE.width, this.O.backFrame.FE.height / 2)
+            return this.GetEraserTransformPosition(this.O.backFrame.FE.width + 1, this.O.backFrame.FE.height / 2)
         }
         else {
-            return this.GetEraserTransformPosition(this.O.backFrame.FE.width, this.O.backFrame.FE.height)
+            return this.GetEraserTransformPosition(this.O.backFrame.FE.width + 1, this.O.backFrame.FE.height + 1)
+        }
+    }
+
+    private TransformCursor() {
+        if (this.O.type == 'LeftTop') {
+            return 'nw-resize'
+        }
+        else if (this.O.type == 'LeftCenter') {
+            return 'w-resize'
+        }
+        else if (this.O.type == 'LeftBottom') {
+            return 'sw-resize'
+        }
+        else if (this.O.type == 'CenterTop') {
+            return 'n-resize'
+        }
+        else if (this.O.type == 'CenterBottom') {
+            return 's-resize'
+        }
+        else if (this.O.type == 'RightTop') {
+            return 'ne-resize'
+        }
+        else if (this.O.type == 'RightCenter') {
+            return 'e-resize'
+        }
+        else {
+            return 'se-resize'
         }
     }
 
@@ -123,22 +141,22 @@ class BackCorner {
 
     private UpdateErasetTransform(delta: { x: number, y: number }) {
         if (this.O.type == 'LeftTop') {
-            this.O.backFrame.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY + delta.y, this.drag.eraserWidth - delta.x, this.drag.eraserHeight - delta.y)
+            this.O.backFrame.UpdateEraser(Mathf.Clamp(0, this.drag.eraserX + this.drag.eraserWidth, this.drag.eraserX + delta.x), Mathf.Clamp(0, this.drag.eraserY + this.drag.eraserHeight, this.drag.eraserY + delta.y), this.drag.eraserWidth - delta.x, this.drag.eraserHeight - delta.y)
         }
         else if (this.O.type == 'LeftCenter') {
-            this.O.backFrame.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY, this.drag.eraserWidth - delta.x, this.drag.eraserHeight)
+            this.O.backFrame.UpdateEraser(Mathf.Clamp(0, this.drag.eraserX + this.drag.eraserWidth, this.drag.eraserX + delta.x), this.drag.eraserY, this.drag.eraserWidth - delta.x, this.drag.eraserHeight)
         }
         else if (this.O.type == 'LeftBottom') {
-            this.O.backFrame.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY, this.drag.eraserWidth - delta.x, this.drag.eraserHeight + delta.y)
+            this.O.backFrame.UpdateEraser(Mathf.Clamp(0, this.drag.eraserX + this.drag.eraserWidth, this.drag.eraserX + delta.x), this.drag.eraserY, this.drag.eraserWidth - delta.x, this.drag.eraserHeight + delta.y)
         }
         else if (this.O.type == 'CenterTop') {
-            this.O.backFrame.UpdateEraser(this.drag.eraserX, this.drag.eraserY + delta.y, this.drag.eraserWidth, this.drag.eraserHeight - delta.y)
+            this.O.backFrame.UpdateEraser(this.drag.eraserX, Mathf.Clamp(0, this.drag.eraserY + this.drag.eraserHeight, this.drag.eraserY + delta.y), this.drag.eraserWidth, this.drag.eraserHeight - delta.y)
         }
         else if (this.O.type == 'CenterBottom') {
             this.O.backFrame.UpdateEraser(this.drag.eraserX, this.drag.eraserY, this.drag.eraserWidth, this.drag.eraserHeight + delta.y)
         }
         else if (this.O.type == 'RightTop') {
-            this.O.backFrame.UpdateEraser(this.drag.eraserX, this.drag.eraserY + delta.y, this.drag.eraserWidth + delta.x, this.drag.eraserHeight - delta.y)
+            this.O.backFrame.UpdateEraser(this.drag.eraserX, Mathf.Clamp(0, this.drag.eraserY + this.drag.eraserHeight, this.drag.eraserY + delta.y), this.drag.eraserWidth + delta.x, this.drag.eraserHeight - delta.y)
         }
         else if (this.O.type == 'RightCenter') {
             this.O.backFrame.UpdateEraser(this.drag.eraserX, this.drag.eraserY, this.drag.eraserWidth + delta.x, this.drag.eraserHeight)

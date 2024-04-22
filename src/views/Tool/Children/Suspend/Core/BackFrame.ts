@@ -2,6 +2,7 @@ import * as L from 'leafer-ui'
 import { Suspend } from '../Suspend'
 import { BackCorner } from './BackCorner'
 import { Mathf } from '@/libs/Mathf'
+import { BackEdge } from './BackEdge'
 
 type BackFrameOptions = {
     suspend: Suspend,
@@ -32,8 +33,6 @@ class BackFrame {
     private frameBack!: L.Rect
 
     private frameEraser!: L.Rect
-
-    private edge!: L.Rect
 
     private drag = {
         startX: 0,
@@ -66,6 +65,18 @@ class BackFrame {
             rightTop: null,
             rightCenter: null,
             rightBottom: null,
+        }
+
+    private edges: {
+        left: BackEdge | null,
+        right: BackEdge | null,
+        top: BackEdge | null,
+        bottom: BackEdge | null,
+    } = {
+            left: null,
+            right: null,
+            top: null,
+            bottom: null,
         }
 
     private Create() {
@@ -102,32 +113,28 @@ class BackFrame {
     }
 
     private ListenEvents() {
-        this.edge.on_(L.DragEvent.DRAG, this.OnDragging, this)
-        this.edge.on_(L.DragEvent.START, this.OnDragStart, this)
-        this.edge.on_(L.DragEvent.END, this.OnDragEnd, this)
+        this.frameEraser.on_(L.DragEvent.DRAG, this.OnDragging, this)
+        this.frameEraser.on_(L.DragEvent.START, this.OnDragStart, this)
+        this.frameEraser.on_(L.DragEvent.END, this.OnDragEnd, this)
     }
 
     private CreateEdge() {
-        this.edge = new L.Rect({
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-            fill: 'transparent',
-            stroke: '#30aaaaff',
-            strokeWidth: 3,
-            around: 'center',
-            cursor: 'move'
+        this.edges.left = new BackEdge({
+            backFrame: this,
+            type: 'Left'
         })
-        this.frame.add(this.edge)
-    }
-
-    private UpdateEdgePosition() {
-        const position = this.FE.getLocalPointByInner({ x: this.FE.width / 2, y: this.FE.height / 2 })
-        this.edge.x = position.x
-        this.edge.y = position.y
-        this.edge.width = this.FE.width + (this.edge.strokeWidth as number) * 2
-        this.edge.height = this.FE.height + (this.edge.strokeWidth as number) * 2
+        this.edges.right = new BackEdge({
+            backFrame: this,
+            type: 'Right'
+        })
+        this.edges.top = new BackEdge({
+            backFrame: this,
+            type: 'Top'
+        })
+        this.edges.bottom = new BackEdge({
+            backFrame: this,
+            type: 'Bottom'
+        })
     }
 
     private CreateCorner() {
@@ -178,7 +185,10 @@ class BackFrame {
         this.corners.rightTop?.UpdatePosition()
         this.corners.rightCenter?.UpdatePosition()
         this.corners.rightBottom?.UpdatePosition()
-        this.UpdateEdgePosition()
+        this.edges.left?.UpdatePosition()
+        this.edges.right?.UpdatePosition()
+        this.edges.top?.UpdatePosition()
+        this.edges.bottom?.UpdatePosition()
         if (this.FE.width < 300 || this.FE.height < 300) {
             this.UpdateCornerVisible(false)
         }
