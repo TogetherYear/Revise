@@ -1,10 +1,15 @@
 <script lang="ts" setup>
+import { provide } from 'vue';
 import { Suspend } from './Suspend';
+import DrawVue from './Components/Draw/Draw.vue'
+import FunctionVue from './Components/Function/Function.vue'
 
 const instance = new Suspend()
 
+provide('instance', instance)
+
 const {
-    dom,
+
 } = instance.InitStates()
 
 instance.InitHooks()
@@ -14,7 +19,8 @@ instance.Run()
 
 <template>
     <div class="Suspend">
-        <span class="Leafer" ref="dom"></span>
+        <DrawVue></DrawVue>
+        <FunctionVue></FunctionVue>
         <span class="Test">Test</span>
     </div>
 </template>

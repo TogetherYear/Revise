@@ -1,11 +1,12 @@
 import * as L from 'leafer-ui'
-import { Suspend } from '../Suspend'
 import { BackCorner } from './BackCorner'
 import { Mathf } from '@/libs/Mathf'
 import { BackEdge } from './BackEdge'
+import { Draw } from '../Draw'
+import { nextTick } from 'vue'
 
 type BackFrameOptions = {
-    suspend: Suspend,
+    draw: Draw,
 }
 
 class BackFrame {
@@ -83,13 +84,13 @@ class BackFrame {
         this.frame = new L.Frame({
             x: 0,
             y: 0,
-            width: this.O.suspend.L.width,
-            height: this.O.suspend.L.height,
+            width: this.O.draw.L.width,
+            height: this.O.draw.L.height,
             fill: "transparent",
             overflow: 'show',
             cursor: 'crosshair'
         })
-        this.O.suspend.L.add(this.frame)
+        this.O.draw.L.add(this.frame)
     }
 
     private CreateRect() {
@@ -189,6 +190,7 @@ class BackFrame {
         this.edges.right?.UpdatePosition()
         this.edges.top?.UpdatePosition()
         this.edges.bottom?.UpdatePosition()
+        this.O.draw.parent.func.UpdateTransform()
         if (this.FE.width < 300 || this.FE.height < 300) {
             this.UpdateCornerVisible(false)
         }
@@ -198,7 +200,7 @@ class BackFrame {
     }
 
     public OnDragging(e: L.DragEvent) {
-        if (this.O.suspend.isFirstDown) {
+        if (this.O.draw.isFirstDown) {
 
         }
         else {
@@ -213,7 +215,7 @@ class BackFrame {
     }
 
     public OnDragStart(e: L.DragEvent) {
-        if (this.O.suspend.isFirstDown) {
+        if (this.O.draw.isFirstDown) {
 
         }
         else {
@@ -230,7 +232,7 @@ class BackFrame {
     }
 
     public OnDragEnd(e: L.DragEvent) {
-        if (this.O.suspend.isFirstDown) {
+        if (this.O.draw.isFirstDown) {
 
         }
         else {
