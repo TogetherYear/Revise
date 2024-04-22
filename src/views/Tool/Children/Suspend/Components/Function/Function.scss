@@ -1,4 +1,28 @@
 .Function {
     position: absolute;
-    background: red;
+    display: flex;
+    flex-direction: row-reverse;
+    background: rgba(230, 230, 230, 1.0);
+
+    .Item {
+        position: relative;
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+
+        &:hover {
+            background: rgba(180, 180, 180, 1.0);
+        }
+
+        img {
+            position: absolute;
+            width: 60%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    }
 }

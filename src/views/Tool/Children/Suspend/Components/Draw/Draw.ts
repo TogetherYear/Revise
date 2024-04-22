@@ -19,7 +19,7 @@ class Draw {
 
     private searchTargetTimer: NodeJS.Timeout | null = null
 
-    private current!: {
+    public current!: {
         x: number,
         y: number,
         width: number,
@@ -39,7 +39,7 @@ class Draw {
 
     public back!: BackFrame
 
-    private target: {
+    public target: {
         monitor: Array<IT.Monitor>,
         window: Array<IT.Window>,
     } = {
