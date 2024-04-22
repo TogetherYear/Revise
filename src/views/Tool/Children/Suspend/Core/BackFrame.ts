@@ -75,7 +75,8 @@ class BackFrame {
             width: this.O.suspend.L.width,
             height: this.O.suspend.L.height,
             fill: "transparent",
-            overflow: 'show'
+            overflow: 'show',
+            cursor: 'crosshair'
         })
         this.O.suspend.L.add(this.frame)
     }
@@ -113,9 +114,10 @@ class BackFrame {
             width: 0,
             height: 0,
             fill: 'transparent',
-            stroke: '#000000ff',
+            stroke: '#30aaaaff',
             strokeWidth: 3,
             around: 'center',
+            cursor: 'move'
         })
         this.frame.add(this.edge)
     }

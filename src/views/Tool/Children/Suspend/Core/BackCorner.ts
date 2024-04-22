@@ -60,7 +60,7 @@ class BackCorner {
         this.circle.width = 20
         this.circle.height = 20
         this.circle.strokeWidth = 4
-        this.circle.fill = '#00000000'
+        this.circle.fill = '#000000ff'
         this.circle.stroke = '#ff0000ff'
     }
 
