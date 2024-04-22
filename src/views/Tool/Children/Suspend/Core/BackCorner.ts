@@ -37,8 +37,8 @@ class BackCorner {
             height: 14,
             x: position.x,
             y: position.y,
-            fill: '#000000',
-            stroke: '#eeeeee',
+            fill: '#000000ff',
+            stroke: '#eeeeeeff',
             strokeWidth: 2,
             around: 'center',
             cursor: 'grab'
@@ -96,6 +96,11 @@ class BackCorner {
             x: e.x - this.drag.startX,
             y: e.y - this.drag.startY,
         }
+        this.UpdateErasetTransform(delta)
+        this.UpdateVisibility()
+    }
+
+    private UpdateErasetTransform(delta: { x: number, y: number }) {
         if (this.O.type == 'LeftTop') {
             this.O.backFrame.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY + delta.y, this.drag.eraserWidth - delta.x, this.drag.eraserHeight - delta.y)
         }
@@ -122,6 +127,23 @@ class BackCorner {
         }
     }
 
+    private UpdateVisibility() {
+        if (this.O.backFrame.FE.width < 300 || this.O.backFrame.FE.height < 300) {
+            this.O.backFrame.UpdateCornerVisible(false)
+        }
+        else {
+            this.O.backFrame.UpdateCornerVisible(true)
+        }
+    }
+
+    public Hide() {
+        this.circle.visible = false
+    }
+
+    public Show() {
+        this.circle.visible = true
+    }
+
     public OnDragStart(e: L.DragEvent) {
         e.stop()
         e.stopDefault()
@@ -131,11 +153,13 @@ class BackCorner {
         this.drag.eraserY = this.O.backFrame.FE.y
         this.drag.eraserWidth = this.O.backFrame.FE.width
         this.drag.eraserHeight = this.O.backFrame.FE.height
+        this.O.backFrame.UpdateCornerVisible(true)
     }
 
     public OnDragEnd(e: L.DragEvent) {
         e.stop()
         e.stopDefault()
+        this.O.backFrame.UpdateCornerVisible(true)
     }
 }
 

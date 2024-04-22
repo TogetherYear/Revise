@@ -161,6 +161,12 @@ class BackFrame {
             y: e.y - this.drag.startY,
         }
         this.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY + delta.y, this.drag.eraserWidth, this.drag.eraserHeight)
+        if (this.FE.width < 300 || this.FE.height < 300) {
+            this.UpdateCornerVisible(false)
+        }
+        else {
+            this.UpdateCornerVisible(true)
+        }
     }
 
     public OnDragStart(e: L.DragEvent) {
@@ -172,11 +178,36 @@ class BackFrame {
         this.drag.eraserY = this.FE.y
         this.drag.eraserWidth = this.FE.width
         this.drag.eraserHeight = this.FE.height
+        this.UpdateCornerVisible(true)
     }
 
     public OnDragEnd(e: L.DragEvent) {
         e.stop()
         e.stopDefault()
+        this.UpdateCornerVisible(true)
+    }
+
+    public UpdateCornerVisible(show: boolean) {
+        if (show) {
+            this.corners.leftTop?.Show()
+            this.corners.leftCenter?.Show()
+            this.corners.leftBottom?.Show()
+            this.corners.centerTop?.Show()
+            this.corners.centerBottom?.Show()
+            this.corners.rightTop?.Show()
+            this.corners.rightCenter?.Show()
+            this.corners.rightBottom?.Show()
+        }
+        else {
+            this.corners.leftTop?.Hide()
+            this.corners.leftCenter?.Hide()
+            this.corners.leftBottom?.Hide()
+            this.corners.centerTop?.Hide()
+            this.corners.centerBottom?.Hide()
+            this.corners.rightTop?.Hide()
+            this.corners.rightCenter?.Hide()
+            this.corners.rightBottom?.Hide()
+        }
     }
 }
 
