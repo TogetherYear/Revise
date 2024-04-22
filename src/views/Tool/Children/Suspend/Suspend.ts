@@ -38,10 +38,10 @@ class Suspend {
 
     private target: {
         monitor: Array<IT.Monitor>,
-        window: Array<IT.Window>
+        window: Array<IT.Window>,
     } = {
             monitor: [],
-            window: []
+            window: [],
         }
 
     public get L() {

@@ -12,6 +12,7 @@ class BackFrame {
         this.options = options
         this.Create()
         this.CreateRect()
+        this.CreateEdge()
         this.CreateCorner()
         this.ListenEvents()
     }
@@ -31,6 +32,8 @@ class BackFrame {
     private frameBack!: L.Rect
 
     private frameEraser!: L.Rect
+
+    private edge!: L.Rect
 
     private drag = {
         startX: 0,
@@ -98,9 +101,31 @@ class BackFrame {
     }
 
     private ListenEvents() {
-        this.frameEraser.on_(L.DragEvent.DRAG, this.OnDragging, this)
-        this.frameEraser.on_(L.DragEvent.START, this.OnDragStart, this)
-        this.frameEraser.on_(L.DragEvent.END, this.OnDragEnd, this)
+        this.edge.on_(L.DragEvent.DRAG, this.OnDragging, this)
+        this.edge.on_(L.DragEvent.START, this.OnDragStart, this)
+        this.edge.on_(L.DragEvent.END, this.OnDragEnd, this)
+    }
+
+    private CreateEdge() {
+        this.edge = new L.Rect({
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            fill: 'transparent',
+            stroke: '#000000ff',
+            strokeWidth: 3,
+            around: 'center',
+        })
+        this.frame.add(this.edge)
+    }
+
+    private UpdateEdgePosition() {
+        const position = this.FE.getLocalPointByInner({ x: this.FE.width / 2, y: this.FE.height / 2 })
+        this.edge.x = position.x
+        this.edge.y = position.y
+        this.edge.width = this.FE.width + (this.edge.strokeWidth as number) * 2
+        this.edge.height = this.FE.height + (this.edge.strokeWidth as number) * 2
     }
 
     private CreateCorner() {
@@ -151,6 +176,7 @@ class BackFrame {
         this.corners.rightTop?.UpdatePosition()
         this.corners.rightCenter?.UpdatePosition()
         this.corners.rightBottom?.UpdatePosition()
+        this.UpdateEdgePosition()
         if (this.FE.width < 300 || this.FE.height < 300) {
             this.UpdateCornerVisible(false)
         }
