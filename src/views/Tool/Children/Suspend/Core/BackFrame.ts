@@ -160,31 +160,46 @@ class BackFrame {
     }
 
     public OnDragging(e: L.DragEvent) {
-        e.stop()
-        e.stopDefault()
-        const delta = {
-            x: e.x - this.drag.startX,
-            y: e.y - this.drag.startY,
+        if (this.O.suspend.isFirstDown) {
+
         }
-        this.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY + delta.y, this.drag.eraserWidth, this.drag.eraserHeight)
+        else {
+            e.stop()
+            e.stopDefault()
+            const delta = {
+                x: e.x - this.drag.startX,
+                y: e.y - this.drag.startY,
+            }
+            this.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY + delta.y, this.drag.eraserWidth, this.drag.eraserHeight)
+        }
     }
 
     public OnDragStart(e: L.DragEvent) {
-        e.stop()
-        e.stopDefault()
-        this.drag.startX = e.x
-        this.drag.startY = e.y
-        this.drag.eraserX = this.FE.x
-        this.drag.eraserY = this.FE.y
-        this.drag.eraserWidth = this.FE.width
-        this.drag.eraserHeight = this.FE.height
-        this.UpdateCornerVisible(true)
+        if (this.O.suspend.isFirstDown) {
+
+        }
+        else {
+            e.stop()
+            e.stopDefault()
+            this.drag.startX = e.x
+            this.drag.startY = e.y
+            this.drag.eraserX = this.FE.x
+            this.drag.eraserY = this.FE.y
+            this.drag.eraserWidth = this.FE.width
+            this.drag.eraserHeight = this.FE.height
+            this.UpdateCornerVisible(true)
+        }
     }
 
     public OnDragEnd(e: L.DragEvent) {
-        e.stop()
-        e.stopDefault()
-        this.UpdateCornerVisible(true)
+        if (this.O.suspend.isFirstDown) {
+
+        }
+        else {
+            e.stop()
+            e.stopDefault()
+            this.UpdateCornerVisible(true)
+        }
     }
 
     public UpdateCornerVisible(show: boolean) {

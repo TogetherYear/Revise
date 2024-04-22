@@ -12,7 +12,7 @@ class Suspend {
 
     private isMouseDown = false
 
-    private isFirstDown = true
+    public isFirstDown = true
 
     private searchMonitorTimer: NodeJS.Timeout | null = null
 
@@ -99,7 +99,7 @@ class Suspend {
         this.leafer.on_(L.PointerEvent.DOWN, this.OnMouseDown, this)
         this.leafer.on_(L.KeyEvent.DOWN, this.OnKeyDown, this)
         this.leafer.on_(L.PointerEvent.UP, this.OnMouseUp, this)
-        this.leafer.on_(L.PointerEvent.MOVE, this.OnMouseMove, this)
+        this.leafer.on_(L.DragEvent.DRAG, this.OnDragging, this)
     }
 
     private async OnMouseDown(e: L.PointerEvent) {
@@ -121,7 +121,13 @@ class Suspend {
         this.isMouseDown = false
     }
 
-    private OnMouseMove(e: L.PointerEvent) {
+    private async OnKeyDown(e: KeyboardEvent) {
+        if (e.key == 'Escape') {
+            await Renderer.Widget.Close()
+        }
+    }
+
+    public OnDragging(e: L.DragEvent) {
         if (this.isFirstDown && this.isMouseDown) {
             const delta = {
                 x: e.x - this.move.startX,
@@ -131,10 +137,8 @@ class Suspend {
         }
     }
 
-    private async OnKeyDown(e: KeyboardEvent) {
-        if (e.key == 'Escape') {
-            await Renderer.Widget.Close()
-        }
+    public OnDragEnd(e: L.DragEvent) {
+        this.back.UpdateCornerVisible(true)
     }
 
     private GenerateSearchTimrer() {
