@@ -14,7 +14,7 @@ class Suspend {
 
     public isFirstDown = true
 
-    private searchMonitorTimer: NodeJS.Timeout | null = null
+    private searchTargetTimer: NodeJS.Timeout | null = null
 
     private current!: {
         x: number,
@@ -36,6 +36,14 @@ class Suspend {
 
     private back!: BackFrame
 
+    private target: {
+        monitor: Array<IT.Monitor>,
+        window: Array<IT.Window>
+    } = {
+            monitor: [],
+            window: []
+        }
+
     public get L() {
         return this.leafer
     }
@@ -53,6 +61,7 @@ class Suspend {
     public Run() {
         onMounted(async () => {
             await this.SetDefaultTransform()
+            await this.SetDefaultTarget()
             this.CreateLeafer()
             this.ListenEvents()
             this.GenerateSearchTimrer()
@@ -81,6 +90,11 @@ class Suspend {
         await Renderer.Widget.Show()
     }
 
+    private async SetDefaultTarget() {
+        this.target.monitor = await Renderer.Monitor.GetAllMonitors()
+        this.target.window = await Renderer.Window.GetAllWindows()
+    }
+
     private CreateLeafer() {
         if (this.dom.value) {
             this.leafer = new L.Leafer({
@@ -103,9 +117,9 @@ class Suspend {
     }
 
     private async OnMouseDown(e: L.PointerEvent) {
-        if (this.isSearchMonitor && this.searchMonitorTimer) {
-            clearInterval(this.searchMonitorTimer)
-            this.searchMonitorTimer = null
+        if (this.isSearchMonitor && this.searchTargetTimer) {
+            clearInterval(this.searchTargetTimer)
+            this.searchTargetTimer = null
         }
         if (this.isFirstDown) {
             this.move.startX = e.x
@@ -142,11 +156,24 @@ class Suspend {
     }
 
     private GenerateSearchTimrer() {
-        if (this.searchMonitorTimer) {
-            clearInterval(this.searchMonitorTimer)
-            this.searchMonitorTimer = null
+        if (this.searchTargetTimer) {
+            clearInterval(this.searchTargetTimer)
+            this.searchTargetTimer = null
         }
-        this.searchMonitorTimer = setInterval(async () => {
+        this.searchTargetTimer = setInterval(async () => {
+            const position = await Renderer.Automatic.GetMousePosition()
+            for (let w of this.target.window) {
+                if ((position.x > w.x && position.x < w.x + w.width) && (position.y > w.y && position.y < w.y + w.height)) {
+                    this.back.UpdateEraser(w.x, w.y - this.current.y, w.width, w.height)
+                    return
+                }
+            }
+            for (let m of this.target.monitor) {
+                if ((position.x > m.x && position.x < m.x + m.width) && (position.y > m.y && position.y < m.y + m.height)) {
+                    this.back.UpdateEraser(m.x, m.y - this.current.y, m.width, m.height)
+                    return
+                }
+            }
             const m = await Renderer.Monitor.GetCurrentMouseMonitor()
             this.back.UpdateEraser(m.x, m.y - this.current.y, m.width, m.height)
         }, 100)
