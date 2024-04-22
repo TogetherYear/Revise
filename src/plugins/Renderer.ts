@@ -596,6 +596,29 @@ class Renderer extends EventSystem {
         }
     }
 
+    public get Tool() {
+        return {
+            CreateSuspendScreenshotWidget: async () => {
+                const widget = this.App.CreateWidget("SuspendScreenshot", {
+                    decorations: false,
+                    width: 500,
+                    height: 500,
+                    center: true,
+                    transparent: true,
+                    visible: false,
+                    resizable: false,
+                    // alwaysOnTop: true,
+                    // skipTaskbar: true,
+                    url: this.Tool.GetExtraUrl('Tool/Suspend')
+                })
+                return widget
+            },
+            GetExtraUrl: (route: string) => {
+                return `${location.origin}/#/${route}`
+            }
+        }
+    }
+
     public async Run() {
         if (!window.Renderer) {
             //@ts-ignore

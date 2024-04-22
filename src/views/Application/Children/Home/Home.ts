@@ -28,6 +28,10 @@ class Home {
     protected Destroy() {
 
     }
+
+    public async ToGetSuspendWidget() {
+        Renderer.Tool.CreateSuspendScreenshotWidget()
+    }
 }
 
 export { Home }

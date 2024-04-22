@@ -476,6 +476,10 @@ declare namespace Renderer {
         }
     }
 
+    export namespace Tool {
+        export function CreateSuspendScreenshotWidget(): Promise<unknown>
+    }
+
     export enum WallpaperMode {
         Center = 0,
         Crop = 1,

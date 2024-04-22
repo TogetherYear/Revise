@@ -4,7 +4,7 @@ import { Suspend } from './Suspend';
 const instance = new Suspend()
 
 const {
-
+    dom,
 } = instance.InitStates()
 
 instance.InitHooks()
@@ -14,7 +14,8 @@ instance.Run()
 
 <template>
     <div class="Suspend">
-
+        <span class="Leafer" ref="dom"></span>
+        <span class="Test">Test</span>
     </div>
 </template>
 
