@@ -1,6 +1,4 @@
 import { onMounted, onUnmounted, ref } from "vue"
-import { Draw } from "./Components/Draw/Draw"
-import { Function } from "./Components/Function/Function"
 import { OperateType } from "@/views/Application/Children/Operate/Type"
 
 class Suspend {
@@ -8,11 +6,7 @@ class Suspend {
 
     }
 
-    public draw = new Draw(this)
-
-    public func = new Function(this)
-
-    public type = ref<OperateType.SuspendType>(OperateType.SuspendType.Select)
+    public type = ref<OperateType.SuspendType>(OperateType.SuspendType.Draw)
 
     public InitStates() {
         return {

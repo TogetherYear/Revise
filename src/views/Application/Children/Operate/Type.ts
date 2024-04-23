@@ -71,7 +71,7 @@ export namespace OperateType {
     }
 
     export enum SuspendType {
-        Select,
+        Draw,
         Fix,
         Edit
     }

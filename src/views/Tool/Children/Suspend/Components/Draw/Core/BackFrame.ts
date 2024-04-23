@@ -189,7 +189,7 @@ class BackFrame {
         this.edges.right?.UpdatePosition()
         this.edges.top?.UpdatePosition()
         this.edges.bottom?.UpdatePosition()
-        this.O.draw.parent.func.UpdateTransform()
+        this.O.draw.func.UpdateTransform()
         if (this.FE.width < 300 || this.FE.height < 300) {
             this.UpdateCornerVisible(false)
         }

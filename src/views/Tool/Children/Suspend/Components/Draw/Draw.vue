@@ -1,18 +1,23 @@
 <script lang="ts" setup>
-import { inject } from 'vue';
-import { Suspend } from '../../Suspend';
+import { provide } from 'vue';
+import FunctionVue from './Components/Function/Function.vue'
+import { Draw } from './Draw';
 
-const instance = inject('instance') as Suspend
+const instance = new Draw()
+
+provide('instance', instance)
+
 const {
     dom,
-} = instance.draw.InitStates()
-instance.draw.InitHooks()
-instance.draw.Run()
+} = instance.InitStates()
+instance.InitHooks()
+instance.Run()
 </script>
 
 <template>
     <div class="Draw">
         <span class="Leafer" ref="dom"></span>
+        <FunctionVue></FunctionVue>
     </div>
 </template>
 

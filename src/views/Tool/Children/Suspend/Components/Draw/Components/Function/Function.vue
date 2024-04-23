@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { inject } from 'vue';
-import { Suspend } from '../../Suspend';
+import { Draw } from '../../Draw';
 
-const instance = inject('instance') as Suspend
+
+const instance = inject('instance') as Draw
 const {
     isShow,
     transform,

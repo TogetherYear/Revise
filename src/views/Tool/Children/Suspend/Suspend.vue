@@ -2,12 +2,9 @@
 import { provide } from 'vue';
 import { Suspend } from './Suspend';
 import DrawVue from './Components/Draw/Draw.vue'
-import FunctionVue from './Components/Function/Function.vue'
 import { OperateType } from "@/views/Application/Children/Operate/Type"
 
 const instance = new Suspend()
-
-provide('instance', instance)
 
 const {
     type,
@@ -20,9 +17,8 @@ instance.Run()
 
 <template>
     <div class="Suspend">
-        <span v-if="type == OperateType.SuspendType.Select">
+        <span v-if="type == OperateType.SuspendType.Draw">
             <DrawVue></DrawVue>
-            <FunctionVue></FunctionVue>
         </span>
         <span></span>
         <span class="Test">Test</span>

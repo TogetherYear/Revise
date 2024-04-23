@@ -1,15 +1,15 @@
 import { onMounted, onUnmounted, reactive, ref } from "vue"
-import { Suspend } from "../../Suspend"
 import { Mathf } from "@/libs/Mathf"
 import fixIcon from '@/assets/images/fix.png'
-import { SuspendType } from '../../Type'
+import { Draw } from "../../Draw"
+import { SuspendType } from "../../../../Type"
 
 class Function {
-    public constructor(parent: Suspend) {
+    public constructor(parent: Draw) {
         this.parent = parent
     }
 
-    private parent!: Suspend
+    private parent!: Draw
 
     public isShow = ref<boolean>(false)
 
@@ -58,7 +58,7 @@ class Function {
     }
 
     public UpdateTransform() {
-        const t = this.parent.draw.GetEraserTransform()
+        const t = this.parent.GetEraserTransform()
         this.transform.left = t.x + t.width - this.transform.width - 10
         this.transform.top = t.y + t.height - this.transform.height - 10
     }
@@ -70,14 +70,14 @@ class Function {
     }
 
     private async ToFix() {
-        this.parent.draw.back.UpdateCornerVisible(false)
-        this.parent.draw.L.nextRender(() => {
-            const t = this.parent.draw.GetEraserTransform()
+        this.parent.back.UpdateCornerVisible(false)
+        this.parent.L.nextRender(() => {
+            const t = this.parent.GetEraserTransform()
             const canvas = document.createElement('canvas')
             canvas.width = t.width
             canvas.height = t.height
             const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
-            const originImageData = (this.parent.draw.L.canvas.context.canvas.getContext('2d') as CanvasRenderingContext2D).getImageData(t.x, t.y, t.width, t.height)
+            const originImageData = (this.parent.L.canvas.context.canvas.getContext('2d') as CanvasRenderingContext2D).getImageData(t.x, t.y, t.width, t.height)
             ctx.putImageData(originImageData, 0, 0)
             Debug.Log(canvas.toDataURL('image/webp', 1.0))
         })

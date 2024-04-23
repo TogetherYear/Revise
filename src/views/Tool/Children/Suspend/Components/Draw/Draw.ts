@@ -1,16 +1,14 @@
 import { onMounted, onUnmounted, ref } from "vue"
-import { Suspend } from "../../Suspend"
 import * as L from 'leafer-ui'
 import { Mathf } from "@/libs/Mathf"
 import { BackFrame } from "./Core/BackFrame"
 import { MonitorFrame } from "./Core/MonitorFrame"
+import { Function } from "./Components/Function/Function"
 
 class Draw {
-    public constructor(parent: Suspend) {
-        this.parent = parent
-    }
+    public constructor() {
 
-    public parent!: Suspend
+    }
 
     private isSearchMonitor = true
 
@@ -19,6 +17,8 @@ class Draw {
     public isFirstDown = true
 
     private searchTargetTimer: NodeJS.Timeout | null = null
+
+    public func = new Function(this)
 
     public current!: {
         x: number,
@@ -147,7 +147,7 @@ class Draw {
     private OnMouseUp(e: L.PointerEvent) {
         this.isFirstDown = false
         this.isMouseDown = false
-        this.parent.func.isShow.value = true
+        this.func.isShow.value = true
     }
 
     private async OnKeyDown(e: KeyboardEvent) {
