@@ -16,8 +16,9 @@ class Application extends AActor {
 
     public Run() {
         onMounted(async () => {
-            await Renderer.Widget.SetShadow(true)
-            await Renderer.Widget.Show()
+            await this.RegisterShortcut()
+            // await Renderer.Widget.SetShadow(true)
+            // await Renderer.Widget.Show()
         })
         onUnmounted(async () => {
             await Renderer.GlobalShortcut.UnregisterAll()
@@ -27,6 +28,13 @@ class Application extends AActor {
 
     protected Destroy() {
 
+    }
+
+    private async RegisterShortcut() {
+        await Renderer.GlobalShortcut.UnregisterAll()
+        Renderer.GlobalShortcut.Register("CommandOrControl+[", () => {
+            Renderer.Tool.CreateSuspendScreenshotWidget()
+        })
     }
 }
 

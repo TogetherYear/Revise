@@ -14,7 +14,7 @@ instance.Run()
 
 <template>
     <div class="Home">
-        <button @click="instance.ToGetSuspendWidget()">ToGetSuspendWidget</button>
+
     </div>
 </template>
 
