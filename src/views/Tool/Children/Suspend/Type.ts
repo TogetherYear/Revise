@@ -17,8 +17,21 @@ export namespace SuspendType {
         height: number
     }
 
+    export enum WidgetType {
+        Draw,
+        Fix,
+        Edit
+    }
+
     export enum WheelDirection {
         Up,
         Down
+    }
+
+    export type FixTransform = {
+        x: number,
+        y: number,
+        width: number,
+        height: number
     }
 }

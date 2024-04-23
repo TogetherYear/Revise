@@ -19,7 +19,6 @@ instance.Run()
 <template>
     <div class="DefaultWindow Application">
         <HeaderBarVue :type="'main'"></HeaderBarVue>
-        <router-view class="ExtraView" />
     </div>
 </template>
 

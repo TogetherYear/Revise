@@ -17,7 +17,7 @@ class Application extends AActor {
     public Run() {
         onMounted(async () => {
             await this.RegisterShortcut()
-            // await Renderer.Widget.SetShadow(true)
+            await Renderer.Widget.SetShadow(true)
             // await Renderer.Widget.Show()
         })
         onUnmounted(async () => {

@@ -4,7 +4,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: 'Default',
-        redirect: '/Application/Operate'
+        redirect: '/Application'
     },
     {
         path: '/:pathMatch(.*)',
@@ -20,18 +20,6 @@ const routes: Array<RouteRecordRaw> = [
         path: '/Application',
         name: 'Application',
         component: () => import('@/views/Application/Application.vue'),
-        children: [
-            {
-                path: 'Home',
-                name: 'Home',
-                component: () => import('@/views/Application/Children/Home/Home.vue'),
-            },
-            {
-                path: 'Operate',
-                name: 'Operate',
-                component: () => import('@/views/Application/Children/Operate/Operate.vue'),
-            }
-        ]
     },
     {
         path: '/Tool',

@@ -1,5 +1,5 @@
 import { onMounted, onUnmounted, ref } from "vue"
-import { OperateType } from "@/views/Application/Children/Operate/Type"
+import { SuspendType } from "./Type"
 
 class Suspend {
     private constructor() {
@@ -12,11 +12,11 @@ class Suspend {
         return this.instance
     }
 
-    public type = ref<OperateType.SuspendType>(OperateType.SuspendType.Draw)
+    public type = ref<SuspendType.WidgetType>(SuspendType.WidgetType.Draw)
 
     public currentImage!: HTMLImageElement
 
-    public currentTransform!: OperateType.FixTransform
+    public currentTransform!: SuspendType.FixTransform
 
     public InitStates() {
         return {
@@ -55,12 +55,12 @@ class Suspend {
         }
     }
 
-    public async OnNeedFix(transform: OperateType.FixTransform, image: HTMLImageElement) {
+    public async OnNeedFix(transform: SuspendType.FixTransform, image: HTMLImageElement) {
         await Renderer.Widget.SetSize(0, 0)
         await Renderer.Widget.Hide()
         this.currentImage = image
         this.currentTransform = transform
-        this.type.value = OperateType.SuspendType.Fix
+        this.type.value = SuspendType.WidgetType.Fix
     }
 }
 

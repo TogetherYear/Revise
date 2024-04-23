@@ -3,7 +3,7 @@ import { provide } from 'vue';
 import { Suspend } from './Suspend';
 import DrawVue from './Components/Draw/Draw.vue'
 import FixVue from './Components/Fix/Fix.vue'
-import { OperateType } from "@/views/Application/Children/Operate/Type"
+import { SuspendType } from "./Type"
 
 const {
     type,
@@ -16,10 +16,10 @@ Suspend.Instance.Run()
 
 <template>
     <div class="Suspend">
-        <span v-if="type == OperateType.SuspendType.Draw">
+        <span v-if="type == SuspendType.WidgetType.Draw">
             <DrawVue></DrawVue>
         </span>
-        <span v-if="type == OperateType.SuspendType.Fix">
+        <span v-if="type == SuspendType.WidgetType.Fix">
             <FixVue></FixVue>
         </span>
     </div>
