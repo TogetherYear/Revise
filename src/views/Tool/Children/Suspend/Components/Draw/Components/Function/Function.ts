@@ -1,6 +1,8 @@
 import { onMounted, onUnmounted, reactive, ref } from "vue"
 import { Mathf } from "@/libs/Mathf"
 import fixIcon from '@/assets/images/fix.png'
+import saveIcon from '@/assets/images/save.png'
+import copyIcon from '@/assets/images/copy.png'
 import { Draw } from "../../Draw"
 import { SuspendType } from "../../../../Type"
 import { Suspend } from "../../../../Suspend"
@@ -28,7 +30,17 @@ class Function {
             icon: fixIcon,
             label: "粘贴到屏幕上",
             type: SuspendType.FunctionBtnType.Fix
-        }
+        },
+        {
+            icon: saveIcon,
+            label: "保存为文件",
+            type: SuspendType.FunctionBtnType.Save
+        },
+        {
+            icon: copyIcon,
+            label: "复制为base64",
+            type: SuspendType.FunctionBtnType.Copy
+        },
     ])
 
     public InitStates() {
@@ -68,9 +80,15 @@ class Function {
         if (e.type == SuspendType.FunctionBtnType.Fix) {
             this.ToFix()
         }
+        else if (e.type == SuspendType.FunctionBtnType.Save) {
+            this.ToSave()
+        }
+        else if (e.type == SuspendType.FunctionBtnType.Copy) {
+            this.ToCopy()
+        }
     }
 
-    private async ToFix() {
+    private ToGetUrl(callback: (url: string, t: SuspendType.FixTransform) => void) {
         this.parent.back.UpdateCornerVisible(false)
         this.parent.L.nextRender(() => {
             const t = this.parent.GetEraserTransform()
@@ -80,9 +98,16 @@ class Function {
             const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
             const originImageData = (this.parent.L.canvas.context.canvas.getContext('2d') as CanvasRenderingContext2D).getImageData(t.x, t.y, t.width, t.height)
             ctx.putImageData(originImageData, 0, 0)
+            const url = canvas.toDataURL('image/webp', 1.0)
+            callback(url, t)
+        })
+    }
+
+    private async ToFix() {
+        this.ToGetUrl((url, t) => {
             const image = new Image()
             image.className = "FixImage"
-            image.src = canvas.toDataURL('image/webp', 1.0)
+            image.src = url
             image.onload = () => {
                 Suspend.Instance.OnNeedFix({
                     x: t.x,
@@ -92,7 +117,18 @@ class Function {
                 }, image)
             }
         })
+    }
 
+    private async ToSave() {
+
+    }
+
+    private async ToCopy() {
+        this.ToGetUrl(async (url, t) => {
+            await Renderer.Clipboard.WriteText(url)
+            await Renderer.Widget.SetSize(0, 0)
+            await Renderer.Widget.Close()
+        })
     }
 }
 

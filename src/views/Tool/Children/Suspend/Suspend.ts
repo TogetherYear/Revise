@@ -51,6 +51,7 @@ class Suspend {
 
     private async OnKeyDown(e: KeyboardEvent) {
         if (e.key == 'Escape') {
+            await Renderer.Widget.SetSize(0, 0)
             await Renderer.Widget.Close()
         }
     }

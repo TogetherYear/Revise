@@ -6,7 +6,9 @@ export namespace SuspendType {
     }
 
     export enum FunctionBtnType {
-        Fix
+        Fix,
+        Save,
+        Copy
     }
 
     export interface IFixItem {
