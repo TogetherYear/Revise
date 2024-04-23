@@ -45,7 +45,7 @@ body {
         top: 0;
         background-color: #212121;
         box-sizing: border-box;
-        border: 1px solid #333333;
+        border: 1.5px solid #333333;
         border-radius: 5px;
         overflow: hidden;
     }
@@ -64,5 +64,58 @@ body {
         height: 100%;
         top: 0;
         left: 0;
+    }
+
+    .FixImage {
+        position: absolute;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        pointer-events: none;
+        animation: 1s linear 0s 1 ShadowAnim;
+        box-shadow: 0px 0px 10px 0px #000000;
+        border: none;
+    }
+
+    @keyframes ShadowAnim {
+        0% {
+            box-shadow: none;
+            border: 1.5px solid #ff0000;
+        }
+
+        32% {
+            box-shadow: none;
+            border: 1.5px solid #ff0000;
+        }
+
+        33% {
+            box-shadow: none;
+            border: 1.5px solid #ffff00;
+        }
+
+        65% {
+            box-shadow: none;
+            border: 1.5px solid #ffff00;
+        }
+
+        66% {
+            box-shadow: none;
+            border: 1.5px solid #00ff00;
+        }
+
+        99% {
+            box-shadow: none;
+            border: 1.5px solid #00ff00;
+        }
+
+        100% {
+            box-shadow: 0px 0px 10px 0px #000000;
+            border: none;
+        }
+
     }
 }

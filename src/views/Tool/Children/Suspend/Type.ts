@@ -16,4 +16,9 @@ export namespace SuspendType {
         width: number,
         height: number
     }
+
+    export enum WheelDirection {
+        Up,
+        Down
+    }
 }

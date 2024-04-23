@@ -93,7 +93,8 @@ class Draw {
         this.current = { x: minX, y: minY, width, height }
         await Renderer.Widget.SetPosition(minX, minY)
         await Renderer.Widget.SetSize(width, height)
-        await Renderer.Widget.SetShadow(false)
+        await Renderer.Widget.SetAlwaysOnTop(true)
+        await Renderer.Widget.Show()
     }
 
     private async SetDefaultTarget() {
@@ -126,7 +127,6 @@ class Draw {
 
     private ListenEvents() {
         this.leafer.on_(L.PointerEvent.DOWN, this.OnMouseDown, this)
-        this.leafer.on_(L.KeyEvent.DOWN, this.OnKeyDown, this)
         this.leafer.on_(L.PointerEvent.UP, this.OnMouseUp, this)
         this.leafer.on_(L.DragEvent.DRAG, this.OnDragging, this)
     }
@@ -151,11 +151,6 @@ class Draw {
         this.func.isShow.value = true
     }
 
-    private async OnKeyDown(e: KeyboardEvent) {
-        if (e.key == 'Escape') {
-            await Renderer.Widget.Close()
-        }
-    }
 
     public OnDragging(e: L.DragEvent) {
         if (this.isFirstDown && this.isMouseDown) {

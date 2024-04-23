@@ -22,7 +22,6 @@ Suspend.Instance.Run()
         <span v-if="type == OperateType.SuspendType.Fix">
             <FixVue></FixVue>
         </span>
-        <span class="Test">Test</span>
     </div>
 </template>
 

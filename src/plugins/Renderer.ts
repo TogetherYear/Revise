@@ -24,6 +24,8 @@ class Renderer extends EventSystem {
 
     private flashTimer: NodeJS.Timeout | null = null
 
+    private suspends = new Map<string, W.WebviewWindow>()
+
     public get App() {
         return {
             IsAutostart: () => {
@@ -599,7 +601,8 @@ class Renderer extends EventSystem {
     public get Tool() {
         return {
             CreateSuspendScreenshotWidget: async () => {
-                const widget = this.App.CreateWidget("SuspendScreenshot", {
+                const id = `${(new Date()).getTime()}`
+                const widget = await this.App.CreateWidget(id, {
                     decorations: false,
                     width: 500,
                     height: 500,
@@ -607,9 +610,15 @@ class Renderer extends EventSystem {
                     transparent: true,
                     visible: false,
                     resizable: false,
-                    // alwaysOnTop: true,
-                    // skipTaskbar: true,
+                    alwaysOnTop: true,
+                    skipTaskbar: true,
                     url: this.Tool.GetExtraUrl('Tool/Suspend')
+                })
+                widget.once(E.TauriEvent.WINDOW_CREATED, (e) => {
+                    this.suspends.set(id, widget)
+                })
+                widget.once(E.TauriEvent.WINDOW_DESTROYED, (e) => {
+                    this.suspends.delete(id)
                 })
                 return widget
             },

@@ -30,8 +30,8 @@ class Suspend {
     }
 
     public Run() {
-        onMounted(async () => {
-            await Renderer.Widget.Show()
+        onMounted(() => {
+            this.ListenEvents()
         })
 
         onUnmounted(() => {
@@ -43,7 +43,21 @@ class Suspend {
 
     }
 
-    public OnNeedFix(transform: OperateType.FixTransform, image: HTMLImageElement) {
+    private ListenEvents() {
+        window.addEventListener('keydown', (e) => {
+            this.OnKeyDown(e)
+        })
+    }
+
+    private async OnKeyDown(e: KeyboardEvent) {
+        if (e.key == 'Escape') {
+            await Renderer.Widget.Close()
+        }
+    }
+
+    public async OnNeedFix(transform: OperateType.FixTransform, image: HTMLImageElement) {
+        await Renderer.Widget.SetSize(0, 0)
+        await Renderer.Widget.Hide()
         this.currentImage = image
         this.currentTransform = transform
         this.type.value = OperateType.SuspendType.Fix
