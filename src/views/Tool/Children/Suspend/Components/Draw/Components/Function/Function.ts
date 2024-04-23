@@ -3,6 +3,7 @@ import { Mathf } from "@/libs/Mathf"
 import fixIcon from '@/assets/images/fix.png'
 import { Draw } from "../../Draw"
 import { SuspendType } from "../../../../Type"
+import { Suspend } from "../../../../Suspend"
 
 class Function {
     public constructor(parent: Draw) {
@@ -79,7 +80,22 @@ class Function {
             const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
             const originImageData = (this.parent.L.canvas.context.canvas.getContext('2d') as CanvasRenderingContext2D).getImageData(t.x, t.y, t.width, t.height)
             ctx.putImageData(originImageData, 0, 0)
-            Debug.Log(canvas.toDataURL('image/webp', 1.0))
+            const image = new Image()
+            image.style.position = 'absolute'
+            image.style.width = '100%'
+            image.style.height = '100%'
+            image.style.left = '0px'
+            image.style.top = '0px'
+            image.style.pointerEvents = 'none'
+            image.src = canvas.toDataURL('image/webp', 1.0)
+            image.onload = () => {
+                Suspend.Instance.OnNeedFix({
+                    x: t.x,
+                    y: t.y + this.parent.current.y,
+                    width: t.width,
+                    height: t.height
+                }, image)
+            }
         })
 
     }

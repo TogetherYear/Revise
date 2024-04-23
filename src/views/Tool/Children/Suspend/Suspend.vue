@@ -2,17 +2,16 @@
 import { provide } from 'vue';
 import { Suspend } from './Suspend';
 import DrawVue from './Components/Draw/Draw.vue'
+import FixVue from './Components/Fix/Fix.vue'
 import { OperateType } from "@/views/Application/Children/Operate/Type"
-
-const instance = new Suspend()
 
 const {
     type,
-} = instance.InitStates()
+} = Suspend.Instance.InitStates()
 
-instance.InitHooks()
+Suspend.Instance.InitHooks()
 
-instance.Run()
+Suspend.Instance.Run()
 </script>
 
 <template>
@@ -20,7 +19,9 @@ instance.Run()
         <span v-if="type == OperateType.SuspendType.Draw">
             <DrawVue></DrawVue>
         </span>
-        <span></span>
+        <span v-if="type == OperateType.SuspendType.Fix">
+            <FixVue></FixVue>
+        </span>
         <span class="Test">Test</span>
     </div>
 </template>

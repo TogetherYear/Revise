@@ -75,4 +75,11 @@ export namespace OperateType {
         Fix,
         Edit
     }
+
+    export type FixTransform = {
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    }
 }

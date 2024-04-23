@@ -93,6 +93,7 @@ class Draw {
         this.current = { x: minX, y: minY, width, height }
         await Renderer.Widget.SetPosition(minX, minY)
         await Renderer.Widget.SetSize(width, height)
+        await Renderer.Widget.SetShadow(false)
     }
 
     private async SetDefaultTarget() {
