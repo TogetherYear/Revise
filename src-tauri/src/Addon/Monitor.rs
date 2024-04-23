@@ -1,4 +1,3 @@
-use image::ImageFormat;
 use tauri::command;
 
 use super::Automatic::GetMousePosition;
@@ -41,7 +40,9 @@ pub fn CaptureMonitor(id: u32, path: String) -> bool {
     for m in monitors.iter() {
         if m.id() == id {
             let buffer = m.capture_image().unwrap();
-            buffer.save_with_format(path, ImageFormat::WebP).unwrap();
+            buffer
+                .save_with_format(path, xcap::image::ImageFormat::WebP)
+                .unwrap();
             return true;
         }
     }

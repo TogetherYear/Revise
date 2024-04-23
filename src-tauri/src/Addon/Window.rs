@@ -1,4 +1,3 @@
-use image::ImageFormat;
 use tauri::command;
 
 use super::Monitor::Monitor;
@@ -19,7 +18,9 @@ pub fn CaptureWindow(id: u32, path: String) -> bool {
     for w in windows.iter() {
         if w.id() == id && !w.is_minimized() {
             let buffer = w.capture_image().unwrap();
-            buffer.save_with_format(path, ImageFormat::WebP).unwrap();
+            buffer
+                .save_with_format(path, xcap::image::ImageFormat::WebP)
+                .unwrap();
             return true;
         }
     }
