@@ -3,7 +3,6 @@ import { BackCorner } from './BackCorner'
 import { Mathf } from '@/libs/Mathf'
 import { BackEdge } from './BackEdge'
 import { Draw } from '../Draw'
-import { nextTick } from 'vue'
 
 type BackFrameOptions = {
     draw: Draw,

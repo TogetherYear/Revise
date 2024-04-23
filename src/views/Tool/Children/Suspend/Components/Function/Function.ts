@@ -70,48 +70,18 @@ class Function {
     }
 
     private async ToFix() {
-        const t = this.parent.draw.GetEraserTransform()
-        const ms = this.parent.draw.target.monitor.sort((a, b) => a.x - b.x)
-        const need: Array<SuspendType.IFixItem> = []
-        let w = t.x + t.width
-        if (ms.length == 1) {
-            need.push({
-                id: ms[0].id,
-                x: t.x,
-                y: t.y + this.parent.draw.current.y - ms[0].y,
-                width: t.width,
-                height: t.height
-            })
-        }
-        else if (ms.length == 2) {
-            for (let m of ms) {
-                if (w > m.width) {
-                    need.push({
-                        id: m.id,
-                        x: t.x,
-                        y: t.y + this.parent.draw.current.y - m.y,
-                        width: m.width - t.x,
-                        height: t.height
-                    })
-                    w -= m.width
-                }
-                else {
-                    if (w > 0) {
-                        need.push({
-                            id: m.id,
-                            x: 0,
-                            y: t.y + this.parent.draw.current.y - m.y,
-                            width: w,
-                            height: t.height
-                        })
-                        w = -1
-                    }
-                }
-            }
-        }
-        else {
+        this.parent.draw.back.UpdateCornerVisible(false)
+        this.parent.draw.L.nextRender(() => {
+            const t = this.parent.draw.GetEraserTransform()
+            const canvas = document.createElement('canvas')
+            canvas.width = t.width
+            canvas.height = t.height
+            const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+            const originImageData = (this.parent.draw.L.canvas.context.canvas.getContext('2d') as CanvasRenderingContext2D).getImageData(t.x, t.y, t.width, t.height)
+            ctx.putImageData(originImageData, 0, 0)
+            Debug.Log(canvas.toDataURL('image/webp', 1.0))
+        })
 
-        }
     }
 }
 

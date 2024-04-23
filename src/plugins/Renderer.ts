@@ -159,10 +159,10 @@ class Renderer extends EventSystem {
                 return {
                     ...window,
                     monitor: this.Monitor.TransformMonitor(window.monitor as Record<string, unknown>),
-                    Capture: async () => {
+                    Capture: async (path?: string) => {
                         const time = Time.GetTime(null, true, '-', '-').replaceAll(' ', '_')
-                        if (await T.invoke("CaptureWindow", { id: window.id, path: await this.Resource.GetPathByName(`Images/Capture-${time}.webp`, false) })) {
-                            return await this.Resource.GetPathByName(`Images/Capture-${time}.webp`, true)
+                        if (await T.invoke("CaptureWindow", { id: window.id, path: await this.Resource.GetPathByName(path || `Images/Capture-${time}.webp`, false) })) {
+                            return await this.Resource.GetPathByName(path || `Images/Capture-${time}.webp`, true)
                         }
                         return Promise.resolve("")
                     },
@@ -301,10 +301,10 @@ class Renderer extends EventSystem {
             TransformMonitor: (monitor: Record<string, unknown>) => {
                 return {
                     ...monitor,
-                    Capture: async () => {
+                    Capture: async (path?: string) => {
                         const time = Time.GetTime(null, true, '-', '-').replaceAll(' ', '_')
-                        if (await T.invoke("CaptureMonitor", { id: monitor.id, path: await this.Resource.GetPathByName(`Images/Capture-${time}.webp`, false) })) {
-                            return await this.Resource.GetPathByName(`Images/Capture-${time}.webp`, false)
+                        if (await T.invoke("CaptureMonitor", { id: monitor.id, path: await this.Resource.GetPathByName(path || `Images/Capture-${time}.webp`, false) })) {
+                            return await this.Resource.GetPathByName(path || `Images/Capture-${time}.webp`, true)
                         }
                         return Promise.resolve("")
                     }

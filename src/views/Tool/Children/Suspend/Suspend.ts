@@ -1,6 +1,7 @@
 import { onMounted, onUnmounted, ref } from "vue"
 import { Draw } from "./Components/Draw/Draw"
 import { Function } from "./Components/Function/Function"
+import { OperateType } from "@/views/Application/Children/Operate/Type"
 
 class Suspend {
     public constructor() {
@@ -11,9 +12,11 @@ class Suspend {
 
     public func = new Function(this)
 
+    public type = ref<OperateType.SuspendType>(OperateType.SuspendType.Select)
+
     public InitStates() {
         return {
-
+            type: this.type,
         }
     }
 
@@ -22,8 +25,8 @@ class Suspend {
     }
 
     public Run() {
-        onMounted(() => {
-
+        onMounted(async () => {
+            await Renderer.Widget.Show()
         })
 
         onUnmounted(() => {

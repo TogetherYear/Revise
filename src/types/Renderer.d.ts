@@ -730,9 +730,9 @@ declare namespace IT {
         frequency: number,
         isPrimary: boolean,
         /**
-         * 获取截屏
+         * 获取截屏 path填写的是Extra文件夹下 需要图片后缀
          */
-        Capture: () => Promise<string>
+        Capture: (path?: string) => Promise<string>
     }
 
     export interface IToggleKey {
@@ -752,9 +752,9 @@ declare namespace IT {
         isMaximized: boolean,
         monitor: Monitor
         /**
-         * 获取截屏 最小化的窗口无法截取
+         * 获取截屏 最小化的窗口无法截取 path填写的是Extra文件夹下 需要图片后缀
          */
-        Capture: () => Promise<string>
+        Capture: (path?: string) => Promise<string>
     }
 
     export type ImageOptions = {

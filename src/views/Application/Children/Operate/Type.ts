@@ -69,4 +69,10 @@ export namespace OperateType {
             pixelRatio: number
         }
     }
+
+    export enum SuspendType {
+        Select,
+        Fix,
+        Edit
+    }
 }

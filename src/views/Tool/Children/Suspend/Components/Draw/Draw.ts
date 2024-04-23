@@ -3,6 +3,7 @@ import { Suspend } from "../../Suspend"
 import * as L from 'leafer-ui'
 import { Mathf } from "@/libs/Mathf"
 import { BackFrame } from "./Core/BackFrame"
+import { MonitorFrame } from "./Core/MonitorFrame"
 
 class Draw {
     public constructor(parent: Suspend) {
@@ -39,8 +40,10 @@ class Draw {
 
     public back!: BackFrame
 
+    public monitor!: MonitorFrame
+
     public target: {
-        monitor: Array<IT.Monitor>,
+        monitor: Array<IT.Monitor & { url: string }>,
         window: Array<IT.Window>,
     } = {
             monitor: [],
@@ -90,11 +93,16 @@ class Draw {
         this.current = { x: minX, y: minY, width, height }
         await Renderer.Widget.SetPosition(minX, minY)
         await Renderer.Widget.SetSize(width, height)
-        await Renderer.Widget.Show()
     }
 
     private async SetDefaultTarget() {
-        this.target.monitor = await Renderer.Monitor.GetAllMonitors()
+        const ms = (await Renderer.Monitor.GetAllMonitors()).sort((a, b) => a.x - b.x)
+        for (let m of ms) {
+            this.target.monitor.push({
+                ...m,
+                url: await m.Capture(`Images/${m.id}.webp`)
+            })
+        }
         this.target.window = await Renderer.Window.GetAllWindows()
     }
 
@@ -105,6 +113,9 @@ class Draw {
                 wheel: { zoomMode: false, preventDefault: true },
                 type: 'draw',
                 fill: 'transparent',
+            })
+            this.monitor = new MonitorFrame({
+                draw: this
             })
             this.back = new BackFrame({
                 draw: this
