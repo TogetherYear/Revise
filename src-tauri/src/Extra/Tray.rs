@@ -12,15 +12,7 @@ pub fn OnEvent(app: &AppHandle, event: SystemTrayEvent) {
             position: _,
             size: _,
             ..
-        } => {
-            let window = app.get_window("Application").unwrap();
-            if window.is_minimized().unwrap() {
-                window.unminimize().unwrap();
-            } else {
-                window.show().unwrap();
-            }
-            window.set_focus().unwrap();
-        }
+        } => {}
         SystemTrayEvent::RightClick {
             position: _,
             size: _,

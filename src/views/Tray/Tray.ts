@@ -15,9 +15,11 @@ class Tray extends AActor {
     public Run() {
         this.ListenEvents()
         onMounted(async () => {
+            await this.RegisterShortcut()
             await Renderer.Widget.Hide()
         })
-        onUnmounted(() => {
+        onUnmounted(async () => {
+            await Renderer.GlobalShortcut.UnregisterAll()
             this.Destroy()
         })
     }
@@ -34,6 +36,13 @@ class Tray extends AActor {
 
     public async OnClose() {
         await Renderer.App.Close()
+    }
+
+    private async RegisterShortcut() {
+        await Renderer.GlobalShortcut.UnregisterAll()
+        Renderer.GlobalShortcut.Register("CommandOrControl+[", () => {
+            Renderer.Tool.CreateSuspendScreenshotWidget()
+        })
     }
 }
 

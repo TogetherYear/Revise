@@ -7,7 +7,7 @@
         "distDir": "../dist"
     },
     "package": {
-        "productName": "Application",
+        "productName": "Revise",
         "version": "0.1.0"
     },
     "tauri": {
@@ -102,23 +102,6 @@
             "active": false
         },
         "windows": [
-            {
-                "fullscreen": false,
-                "height": 560,
-                "minHeight": 280,
-                "resizable": true,
-                "center": true,
-                "title": "Application",
-                "width": 1000,
-                "minWidth": 550,
-                "decorations": false,
-                "focus": true,
-                "label": "Application",
-                "transparent": true,
-                "url": "/#/Application",
-                "visible": false,
-                "maximizable": false
-            },
             {
                 "fullscreen": false,
                 "height": 303,

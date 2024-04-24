@@ -4,7 +4,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: 'Default',
-        redirect: '/Application'
+        redirect: '/Tray'
     },
     {
         path: '/:pathMatch(.*)',
@@ -15,11 +15,6 @@ const routes: Array<RouteRecordRaw> = [
         path: '/Empty',
         name: 'Empty',
         component: () => import('@/views/Empty/Empty.vue')
-    },
-    {
-        path: '/Application',
-        name: 'Application',
-        component: () => import('@/views/Application/Application.vue'),
     },
     {
         path: '/Tool',

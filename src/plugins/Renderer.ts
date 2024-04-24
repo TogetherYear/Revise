@@ -649,7 +649,6 @@ class Renderer extends EventSystem {
         this.ListenEvents()
         await this.Limit()
         await this.Process()
-        await this.State()
     }
 
     private CreateEvents() {
@@ -728,42 +727,11 @@ class Renderer extends EventSystem {
 
     private GetHrefDir() {
         const href = location.href
-        if (href.indexOf("Application") != -1) {
-            return 'Application'
-        }
-        else if (href.indexOf("Tray") != -1) {
+        if (href.indexOf("Tray") != -1) {
             return 'Tray'
         }
         else {
-            return 'Application'
-        }
-    }
-
-    private async State() {
-        if (W.appWindow.label == "Application") {
-            W.appWindow.onCloseRequested((e) => {
-                W.appWindow.hide()
-                e.preventDefault()
-            })
-            let isStart = true
-            W.appWindow.onResized(async (e) => {
-                if (isStart) {
-                    isStart = false
-                    await this.Widget.SetSize(parseInt(localStorage.getItem("width") || '1000'), parseInt(localStorage.getItem("height") || '560'))
-                    await this.Widget.Center()
-                }
-                else {
-                    localStorage.setItem("width", `${e.payload.width}`)
-                    localStorage.setItem("height", `${e.payload.height}`)
-                    this.Emit(this.RendererEvent.Resize, {
-                        event: this.RendererEvent.Resize,
-                        extra: {
-                            width: e.payload.width,
-                            height: e.payload.height,
-                        }
-                    })
-                }
-            })
+            return 'Revise'
         }
     }
 }

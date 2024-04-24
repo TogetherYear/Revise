@@ -1,5 +1,5 @@
 {
-  "name": "Application",
+  "name": "Revise",
   "version": "0.0.0",
   "scripts": {
     "tauri": "tauri",
