@@ -599,10 +599,6 @@ declare namespace Renderer {
         Suspend = 'Suspend',
     }
 
-    export const CaptureTempInputPath: Promise<string>
-
-    export const CaptureTempOutputPath: Promise<string>
-
     /**
      * 监听事件
      */
