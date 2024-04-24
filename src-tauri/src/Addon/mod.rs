@@ -13,6 +13,7 @@ pub fn Generate() -> impl Fn(tauri::Invoke) {
     generate_handler![
         Widget::SetShadow,
         Image::ConvertImageFormat,
+        Image::SaveFileFromBase64,
         Automatic::GetMousePosition,
         Automatic::SetMousePosition,
         Automatic::SetButtonClick,

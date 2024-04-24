@@ -6,6 +6,7 @@ import copyIcon from '@/assets/images/copy.png'
 import { Draw } from "../../Draw"
 import { SuspendType } from "../../../../Type"
 import { Suspend } from "../../../../Suspend"
+import { Time } from "@/libs/Time"
 
 class Function {
     public constructor(parent: Draw) {
@@ -88,7 +89,7 @@ class Function {
         }
     }
 
-    private ToGetUrl(callback: (url: string, t: SuspendType.FixTransform) => void) {
+    private ToGetCanvasBase64(callback: (url: string, t: SuspendType.FixTransform) => void) {
         this.parent.back.UpdateCornerVisible(false)
         this.parent.L.nextRender(() => {
             const t = this.parent.GetEraserTransform()
@@ -98,16 +99,16 @@ class Function {
             const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
             const originImageData = (this.parent.L.canvas.context.canvas.getContext('2d') as CanvasRenderingContext2D).getImageData(t.x, t.y, t.width, t.height)
             ctx.putImageData(originImageData, 0, 0)
-            const url = canvas.toDataURL('image/webp', 1.0)
-            callback(url, t)
+            const base64 = canvas.toDataURL('image/webp', 1.0)
+            callback(base64, t)
         })
     }
 
     private async ToFix() {
-        this.ToGetUrl((url, t) => {
+        this.ToGetCanvasBase64((base64, t) => {
             const image = new Image()
             image.className = "FixImage"
-            image.src = url
+            image.src = base64
             image.onload = () => {
                 Suspend.Instance.OnNeedFix({
                     x: t.x,
@@ -120,12 +121,29 @@ class Function {
     }
 
     private async ToSave() {
-
+        this.ToGetCanvasBase64(async (base64, t) => {
+            const path = await Renderer.Resource.GetPathByName(`Images/Revise_${Time.GetTime(null, true, '-', '-')}.webp`, false)
+            const result = await Renderer.Resource.GetSaveResources({
+                title: "选择保存图片路径",
+                defaultPath: path,
+                filters: [
+                    {
+                        name: '去码头整点薯条',
+                        extensions: ['webp']
+                    }
+                ]
+            })
+            if (result) {
+                await Renderer.Image.SaveFileFromBase64(base64, result)
+                await Renderer.Widget.SetSize(0, 0)
+                await Renderer.Widget.Close()
+            }
+        })
     }
 
     private async ToCopy() {
-        this.ToGetUrl(async (url, t) => {
-            await Renderer.Clipboard.WriteText(url)
+        this.ToGetCanvasBase64(async (base64, t) => {
+            await Renderer.Clipboard.WriteText(base64)
             await Renderer.Widget.SetSize(0, 0)
             await Renderer.Widget.Close()
         })

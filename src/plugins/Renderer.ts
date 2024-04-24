@@ -186,7 +186,7 @@ class Renderer extends EventSystem {
             GetDesktopDir: () => {
                 return Pa.desktopDir()
             },
-            SelectResources: async (options: Record<string, unknown> = {}) => {
+            GetSelectResources: async (options: Record<string, unknown> = {}) => {
                 return D.open({
                     title: (options.title as string) || undefined,
                     multiple: (options.multiple as boolean) || false,
@@ -195,7 +195,7 @@ class Renderer extends EventSystem {
                     filters: (options.filters as Array<D.DialogFilter>) || undefined
                 })
             },
-            SaveResources: async (options: Record<string, unknown>) => {
+            GetSaveResources: async (options: Record<string, unknown>) => {
                 return D.save({
                     title: (options.title as string) || undefined,
                     defaultPath: (options.defaultPath as string) || await Pa.resourceDir(),
@@ -388,6 +388,9 @@ class Renderer extends EventSystem {
                     filter: options.filter || this.ImageFilter.Nearest,
                 }
                 return T.invoke("ConvertImageFormat", { originPath, convertPath, options: o })
+            },
+            SaveFileFromBase64: async (base64: string, path: string) => {
+                return T.invoke("SaveFileFromBase64", { base64, path })
             }
         }
     }

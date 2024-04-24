@@ -24,6 +24,7 @@ tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", 
 window-shadows = "0.2.2"
 file-serve = "0.3.0"
 wallpaper = "3.2.0"
+base64 = "0.22.0"
 image = "0.24.8"
 enigo = "0.1.3"
 xcap = "0.0.8"

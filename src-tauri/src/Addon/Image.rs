@@ -1,3 +1,4 @@
+use base64::{engine::general_purpose, Engine};
 use image::{imageops::FilterType, ImageFormat};
 use serde::{Deserialize, Serialize};
 use tauri::command;
@@ -28,6 +29,17 @@ pub fn ConvertImageFormat(originPath: String, convertPath: String, options: Imag
     }
     r.save_with_format(convertPath, TransformFormat(options.format))
         .unwrap();
+}
+
+#[command]
+pub fn SaveFileFromBase64(base64: String, path: String) -> String {
+    let base64Str = base64.split(",").nth(1).unwrap();
+    let bytes = general_purpose::STANDARD.decode(base64Str).unwrap();
+    image::load_from_memory_with_format(&bytes, ImageFormat::WebP)
+        .unwrap()
+        .save_with_format(&path, ImageFormat::WebP)
+        .unwrap();
+    path
 }
 
 fn TransformFormat(format: u32) -> ImageFormat {
