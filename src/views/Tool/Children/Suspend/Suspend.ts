@@ -51,12 +51,16 @@ class Suspend {
 
     private async OnKeyDown(e: KeyboardEvent) {
         if (e.key == 'Escape') {
+            if (this.type.value == SuspendType.WidgetType.Draw) {
+                await Renderer.Event.Emit(Renderer.Event.TauriEvent.TAURI, { event: Renderer.RendererEvent.Suspend, extra: { type: 'escape', format: '', url: '' } })
+            }
             await Renderer.Widget.SetSize(0, 0)
             await Renderer.Widget.Close()
         }
     }
 
     public async OnNeedFix(transform: SuspendType.FixTransform, image: HTMLImageElement) {
+        await Renderer.Event.Emit(Renderer.Event.TauriEvent.TAURI, { event: Renderer.RendererEvent.Suspend, extra: { type: 'fix', format: 'base64', url: image.src } })
         await Renderer.Widget.SetSize(0, 0)
         await Renderer.Widget.Hide()
         this.currentImage = image

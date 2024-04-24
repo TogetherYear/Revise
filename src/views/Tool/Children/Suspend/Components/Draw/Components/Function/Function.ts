@@ -134,6 +134,7 @@ class Function {
                 ]
             })
             if (result) {
+                await Renderer.Event.Emit(Renderer.Event.TauriEvent.TAURI, { event: Renderer.RendererEvent.Suspend, extra: { type: 'save', format: 'file', url: result } })
                 await Renderer.Image.SaveFileFromBase64(base64, result)
                 await Renderer.Widget.SetSize(0, 0)
                 await Renderer.Widget.Close()
@@ -143,6 +144,7 @@ class Function {
 
     private async ToCopy() {
         this.ToGetCanvasBase64(async (base64, t) => {
+            await Renderer.Event.Emit(Renderer.Event.TauriEvent.TAURI, { event: Renderer.RendererEvent.Suspend, extra: { type: 'copy', format: 'base64', url: base64 } })
             await Renderer.Clipboard.WriteText(base64)
             await Renderer.Widget.SetSize(0, 0)
             await Renderer.Widget.Close()
