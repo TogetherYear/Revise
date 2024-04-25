@@ -124,6 +124,11 @@ declare namespace Renderer {
         export function SetSize(width: number, height: number): Promise<void>
 
         /**
+         * 获取窗口大小
+         */
+        export function GetSize(): Promise<{ width: number, height: number }>
+
+        /**
          * 设置位置
          */
         export function SetPosition(x: number, y: number): Promise<void>

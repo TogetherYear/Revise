@@ -23,11 +23,11 @@
     .Scale {
         position: absolute;
         width: calc(100% - 20px);
-        height: 16px;
+        white-space: nowrap;
         line-height: 16px;
         top: 14px;
         left: 14px;
-        color: #eeeeee;
         font-size: 14px;
+        font-weight: bold;
     }
 }

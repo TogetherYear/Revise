@@ -8,6 +8,8 @@ const {
     currentScale,
     isShowInfo,
     currentOpacity,
+    currentAngle,
+    currentBlur,
 } = instance.InitStates()
 instance.InitHooks()
 instance.Run()
@@ -15,10 +17,17 @@ instance.Run()
 
 <template>
     <div class="Fix" ref="dom" data-tauri-drag-region>
-        <span :style="{ opacity: currentOpacity }" class="Content" ref="container"></span>
-        <span class="Scale" v-show="isShowInfo">大小：{{ ~~(currentScale * 100) }}%&nbsp;&nbsp;&nbsp;透明度：{{
-            ~~(currentOpacity * 100)
-            }}%</span>
+        <span :style="{ opacity: currentOpacity, filter: `blur(${currentBlur}px)` }" class="Content"
+            ref="container"></span>
+        <span class="Scale" v-show="isShowInfo">
+            <span :style="{ color: '#dd0000' }">大小：{{ ~~(currentScale * 100) }}%</span>
+            <span>&nbsp;&nbsp;</span>
+            <span :style="{ color: '#dddd00' }">透明度：{{ ~~(currentOpacity * 100) }}%</span>
+            <span>&nbsp;&nbsp;</span>
+            <span :style="{ color: '#00dd00' }">角度：{{ currentAngle }}</span>
+            <span>&nbsp;&nbsp;</span>
+            <span :style="{ color: '#dddddd' }">模糊度：{{ currentBlur }}px</span>
+        </span>
     </div>
 </template>
 

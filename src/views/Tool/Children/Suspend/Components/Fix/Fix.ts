@@ -20,7 +20,13 @@ class Fix {
 
     private currentOpacity = ref<number>(1.0)
 
+    private currentAngle = ref<number>(0)
+
+    private currentBlur = ref<number>(0)
+
     private isCtrl = false
+
+    private isAlt = false
 
     private move = {
         w: false,
@@ -36,6 +42,8 @@ class Fix {
             container: this.container,
             isShowInfo: this.isShowInfo,
             currentOpacity: this.currentOpacity,
+            currentAngle: this.currentAngle,
+            currentBlur: this.currentBlur,
         }
     }
 
@@ -87,6 +95,9 @@ class Fix {
         if (e.key == 'Control') {
             this.isCtrl = true
         }
+        else if (e.key == 'Alt') {
+            this.isAlt = true
+        }
         else if (e.key == 'w' || e.key == 'W' || e.key == 'ArrowUp') {
             this.move.w = true
         }
@@ -105,6 +116,9 @@ class Fix {
         if (e.key == 'Control') {
             this.isCtrl = false
         }
+        else if (e.key == 'Alt') {
+            this.isAlt = false
+        }
         else if (e.key == 'w' || e.key == 'W' || e.key == 'ArrowUp') {
             this.move.w = false
         }
@@ -122,16 +136,17 @@ class Fix {
     private async OnWheel(type: SuspendType.WheelDirection) {
         this.isShowInfo.value = true
 
-        if (this.isCtrl) {
-            this.currentOpacity.value = Mathf.Clamp(0.1, 1.0, this.currentOpacity.value - (type == SuspendType.WheelDirection.Down ? 0.05 : -0.05))
+        if (this.isCtrl && !this.isAlt) {
+            this.OnChangeOpacity(type)
+        }
+        else if (this.isAlt && !this.isCtrl) {
+            await this.OnChangeAngle(type)
+        }
+        else if (this.isCtrl && this.isAlt) {
+            this.OnChangeBlur(type)
         }
         else {
-            this.currentScale.value = Mathf.Clamp(0.1, 10, this.currentScale.value - (type == SuspendType.WheelDirection.Down ? 0.1 : -0.1))
-            const newSize = {
-                width: Suspend.Instance.currentTransform.width * this.currentScale.value,
-                height: Suspend.Instance.currentTransform.height * this.currentScale.value,
-            }
-            await Renderer.Widget.SetSize(newSize.width, newSize.height)
+            await this.OnChangeSize(type)
         }
         if (this.scaleTimer) {
             clearTimeout(this.scaleTimer)
@@ -140,6 +155,40 @@ class Fix {
             this.isShowInfo.value = false
         }, 1000);
 
+    }
+
+    private async OnChangeSize(type: SuspendType.WheelDirection) {
+        this.currentScale.value = Mathf.Clamp(0.1, 10, this.currentScale.value - (type == SuspendType.WheelDirection.Down ? 0.1 : -0.1))
+        const newSize = {
+            width: Suspend.Instance.currentTransform.width * this.currentScale.value,
+            height: Suspend.Instance.currentTransform.height * this.currentScale.value,
+        }
+        await Renderer.Widget.SetSize(newSize.width, newSize.height)
+    }
+
+    private OnChangeOpacity(type: SuspendType.WheelDirection) {
+        this.currentOpacity.value = Mathf.Clamp(0.1, 1.0, this.currentOpacity.value - (type == SuspendType.WheelDirection.Down ? 0.05 : -0.05))
+    }
+
+    private async OnChangeAngle(type: SuspendType.WheelDirection) {
+        const widgetSize = await Renderer.Widget.GetSize()
+        const angle = (this.currentAngle.value + (type == SuspendType.WheelDirection.Down ? 10 : -10)) % 360
+        this.currentAngle.value = angle < 0 ? 360 + angle : angle
+        const a1 = widgetSize.width * Math.cos(this.currentAngle.value % 90)
+        const b1 = widgetSize.width * Math.sin(this.currentAngle.value % 90)
+        const a2 = widgetSize.height * Math.cos(this.currentAngle.value % 90)
+        const b2 = widgetSize.height * Math.sin(this.currentAngle.value % 90)
+        const c = a1 + b2
+        const d = a2 + b1
+        let angleWidth;
+        let angleHeight;
+        Debug.Log(c)
+        Debug.Log(d)
+        Suspend.Instance.currentImage.style.transform = `rotate(${this.currentAngle.value}deg)`
+    }
+
+    private OnChangeBlur(type: SuspendType.WheelDirection) {
+        this.currentBlur.value = Mathf.Clamp(0, 10, this.currentBlur.value - (type == SuspendType.WheelDirection.Down ? 1 : -1))
     }
 
     private FrameUpdate() {

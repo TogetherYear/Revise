@@ -138,6 +138,9 @@ class Renderer extends EventSystem {
             SetSize: (w: number, h: number) => {
                 return W.appWindow.setSize(new W.LogicalSize(w, h))
             },
+            GetSize: () => {
+                return W.appWindow.innerSize()
+            },
             SetPosition: (x: number, y: number) => {
                 return W.appWindow.setPosition(new W.LogicalPosition(x, y))
             },
