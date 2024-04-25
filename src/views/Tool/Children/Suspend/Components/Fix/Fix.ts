@@ -20,8 +20,6 @@ class Fix {
 
     private currentOpacity = ref<number>(1.0)
 
-    private currentAngle = ref<number>(0)
-
     private currentBlur = ref<number>(0)
 
     private isCtrl = false
@@ -42,7 +40,6 @@ class Fix {
             container: this.container,
             isShowInfo: this.isShowInfo,
             currentOpacity: this.currentOpacity,
-            currentAngle: this.currentAngle,
             currentBlur: this.currentBlur,
         }
     }
@@ -140,10 +137,10 @@ class Fix {
             this.OnChangeOpacity(type)
         }
         else if (this.isAlt && !this.isCtrl) {
-            await this.OnChangeAngle(type)
+            this.OnChangeBlur(type)
         }
         else if (this.isCtrl && this.isAlt) {
-            this.OnChangeBlur(type)
+
         }
         else {
             await this.OnChangeSize(type)
@@ -168,23 +165,6 @@ class Fix {
 
     private OnChangeOpacity(type: SuspendType.WheelDirection) {
         this.currentOpacity.value = Mathf.Clamp(0.1, 1.0, this.currentOpacity.value - (type == SuspendType.WheelDirection.Down ? 0.05 : -0.05))
-    }
-
-    private async OnChangeAngle(type: SuspendType.WheelDirection) {
-        const widgetSize = await Renderer.Widget.GetSize()
-        const angle = (this.currentAngle.value + (type == SuspendType.WheelDirection.Down ? 10 : -10)) % 360
-        this.currentAngle.value = angle < 0 ? 360 + angle : angle
-        const a1 = widgetSize.width * Math.cos(this.currentAngle.value % 90)
-        const b1 = widgetSize.width * Math.sin(this.currentAngle.value % 90)
-        const a2 = widgetSize.height * Math.cos(this.currentAngle.value % 90)
-        const b2 = widgetSize.height * Math.sin(this.currentAngle.value % 90)
-        const c = a1 + b2
-        const d = a2 + b1
-        let angleWidth;
-        let angleHeight;
-        Debug.Log(c)
-        Debug.Log(d)
-        Suspend.Instance.currentImage.style.transform = `rotate(${this.currentAngle.value}deg)`
     }
 
     private OnChangeBlur(type: SuspendType.WheelDirection) {

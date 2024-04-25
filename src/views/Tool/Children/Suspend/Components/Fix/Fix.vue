@@ -8,7 +8,6 @@ const {
     currentScale,
     isShowInfo,
     currentOpacity,
-    currentAngle,
     currentBlur,
 } = instance.InitStates()
 instance.InitHooks()
@@ -24,9 +23,7 @@ instance.Run()
             <span>&nbsp;&nbsp;</span>
             <span :style="{ color: '#dddd00' }">透明度：{{ ~~(currentOpacity * 100) }}%</span>
             <span>&nbsp;&nbsp;</span>
-            <span :style="{ color: '#00dd00' }">角度：{{ currentAngle }}</span>
-            <span>&nbsp;&nbsp;</span>
-            <span :style="{ color: '#dddddd' }">模糊度：{{ currentBlur }}px</span>
+            <span :style="{ color: '#00dd00' }">模糊度：{{ currentBlur }}px</span>
         </span>
     </div>
 </template>
