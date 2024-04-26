@@ -40,6 +40,7 @@ class BackEdge {
             width: t.size.width,
             height: t.size.height,
             fill: '#30aaaaff',
+            zIndex: 200,
             cursor: this.TransformCursor()
         })
         this.O.backFrame.F.add(this.rect)

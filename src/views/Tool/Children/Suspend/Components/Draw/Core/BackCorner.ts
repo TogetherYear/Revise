@@ -43,6 +43,7 @@ class BackCorner {
             strokeWidth: 2,
             around: 'center',
             cursor: this.TransformCursor(),
+            zIndex: 200,
         })
         this.O.backFrame.F.add(this.circle)
     }

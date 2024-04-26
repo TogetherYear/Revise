@@ -70,6 +70,8 @@ class Draw {
 
     private isShowFunc = ref<boolean>(true)
 
+    private isCtrl = false
+
     public InitStates() {
         return {
             dom: this.dom,
@@ -159,6 +161,9 @@ class Draw {
         if (e.key == 'w' || e.key == 'W') {
             this.moveMouse.w = true
         }
+        else if (e.key == 'Control') {
+            this.isCtrl = true
+        }
         else if (e.key == 'ArrowUp') {
             this.moveFrame.w = true
         }
@@ -185,6 +190,14 @@ class Draw {
     private OnKeyUp(e: KeyboardEvent) {
         if (e.key == 'w' || e.key == 'W') {
             this.moveMouse.w = false
+        }
+        else if (e.key == 'Control') {
+            this.isCtrl = false
+        }
+        else if (e.key == 'z' || e.key == 'Z') {
+            if (this.isCtrl) {
+                this.back.UndoDraw()
+            }
         }
         else if (e.key == 'ArrowUp') {
             this.moveFrame.w = false

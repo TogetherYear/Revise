@@ -1,3 +1,5 @@
+import { BackFrame } from "./Components/Draw/Core/BackFrame"
+
 export namespace SuspendType {
     export interface IFunctionBtn {
         icon: string,
@@ -54,5 +56,27 @@ export namespace SuspendType {
         y: number,
         width: number,
         height: number
+    }
+
+    export interface IDrawEntity {
+        startX: number,
+        startY: number,
+        back: BackFrame
+    }
+
+    export interface IDrawRect extends IDrawEntity {
+
+    }
+
+    export interface IDrawEllipse extends IDrawEntity {
+
+    }
+
+    export interface IDrawPath extends IDrawEntity {
+
+    }
+
+    export interface IDrawLine extends IDrawEntity {
+
     }
 }

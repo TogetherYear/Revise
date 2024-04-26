@@ -4,6 +4,11 @@ import { Mathf } from '@/libs/Mathf'
 import { BackEdge } from './BackEdge'
 import { Draw } from '../Draw'
 import { SuspendType } from '../../../Type'
+import { Rect } from './Rect'
+import { Ellipse } from './Ellipse'
+import { Path } from './Path'
+import { Line } from './Line'
+import { Entity } from './Entity'
 
 type BackFrameOptions = {
     draw: Draw,
@@ -80,6 +85,10 @@ class BackFrame {
             bottom: null,
         }
 
+    public currentDraw: Entity | null = null
+
+    public hasDraws: Array<Entity> = []
+
     private Create() {
         this.frame = new L.Frame({
             x: 0,
@@ -100,6 +109,7 @@ class BackFrame {
             width: this.frame.width,
             height: this.frame.height,
             fill: 'rgba(0,0,0,0.5)',
+            zIndex: 0,
         })
         this.frameEraser = new L.Rect({
             x: 0,
@@ -107,7 +117,8 @@ class BackFrame {
             width: 0,
             height: 0,
             eraser: true,
-            fill: 'black'
+            fill: 'black',
+            zIndex: 100
         })
         this.frame.add(this.frameBack)
         this.frame.add(this.frameEraser)
@@ -204,14 +215,17 @@ class BackFrame {
 
         }
         else {
+            e.stop()
+            e.stopDefault()
             if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.None) {
-                e.stop()
-                e.stopDefault()
                 const delta = {
                     x: e.x - this.drag.startX,
                     y: e.y - this.drag.startY,
                 }
                 this.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY + delta.y, this.drag.eraserWidth, this.drag.eraserHeight)
+            }
+            else {
+                this.OnDrawDragging(e)
             }
         }
     }
@@ -221,9 +235,9 @@ class BackFrame {
 
         }
         else {
+            e.stop()
+            e.stopDefault()
             if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.None) {
-                e.stop()
-                e.stopDefault()
                 this.drag.startX = e.x
                 this.drag.startY = e.y
                 this.drag.eraserX = this.FE.x
@@ -231,6 +245,9 @@ class BackFrame {
                 this.drag.eraserWidth = this.FE.width
                 this.drag.eraserHeight = this.FE.height
                 this.UpdateCornerVisible(true)
+            }
+            else {
+                this.OnDrawDragStart(e)
             }
         }
     }
@@ -240,10 +257,13 @@ class BackFrame {
 
         }
         else {
+            e.stop()
+            e.stopDefault()
             if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.None) {
-                e.stop()
-                e.stopDefault()
                 this.UpdateCornerVisible(true)
+            }
+            else {
+                this.OnDrawDragEnd(e)
             }
         }
     }
@@ -268,6 +288,60 @@ class BackFrame {
             this.corners.rightTop?.Hide()
             this.corners.rightCenter?.Hide()
             this.corners.rightBottom?.Hide()
+        }
+    }
+
+    public UndoDraw() {
+        if (this.hasDraws.length != 0) {
+            this.hasDraws[this.hasDraws.length - 1].Destroy()
+            this.hasDraws.splice(this.hasDraws.length - 1, 1)
+        }
+    }
+
+    private OnDrawDragStart(e: L.DragEvent) {
+        if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.Rect) {
+            this.currentDraw = new Rect({
+                startX: e.x,
+                startY: e.y,
+                back: this,
+            })
+            this.hasDraws.push(this.currentDraw)
+        }
+        else if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.Ellipse) {
+            this.currentDraw = new Ellipse({
+                startX: e.x,
+                startY: e.y,
+                back: this,
+            })
+            this.hasDraws.push(this.currentDraw)
+        }
+        else if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.Path) {
+            this.currentDraw = new Path({
+                startX: e.x,
+                startY: e.y,
+                back: this,
+            })
+            this.hasDraws.push(this.currentDraw)
+        }
+        else if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.Line) {
+            this.currentDraw = new Line({
+                startX: e.x,
+                startY: e.y,
+                back: this,
+            })
+            this.hasDraws.push(this.currentDraw)
+        }
+    }
+
+    private OnDrawDragging(e: L.DragEvent) {
+        if (this.currentDraw) {
+            this.currentDraw.OnDrawing(e)
+        }
+    }
+
+    private OnDrawDragEnd(e: L.DragEvent) {
+        if (this.currentDraw) {
+            this.currentDraw.OnDrawEnd(e)
         }
     }
 }
