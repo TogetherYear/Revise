@@ -31,6 +31,10 @@ class Tooltip {
     protected Destroy() {
 
     }
+
+    public UpdateTransform() {
+
+    }
 }
 
 export { Tooltip }
