@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { provide } from 'vue';
 import FunctionVue from './Components/Function/Function.vue'
+import TooltipVue from './Components/Tooltip/Tooltip.vue'
 import { Draw } from './Draw';
 
 const instance = new Draw()
@@ -18,6 +19,7 @@ instance.Run()
     <div class="Draw">
         <span class="Leafer" ref="dom"></span>
         <FunctionVue></FunctionVue>
+        <TooltipVue></TooltipVue>
     </div>
 </template>
 

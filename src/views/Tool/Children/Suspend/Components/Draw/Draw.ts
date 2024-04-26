@@ -4,6 +4,7 @@ import { Mathf } from "@/libs/Mathf"
 import { BackFrame } from "./Core/BackFrame"
 import { MonitorFrame } from "./Core/MonitorFrame"
 import { Function } from "./Components/Function/Function"
+import { Tooltip } from "./Components/Tooltip/Tooltip"
 
 class Draw {
     public constructor() {
@@ -19,6 +20,8 @@ class Draw {
     private searchTargetTimer: NodeJS.Timeout | null = null
 
     public func = new Function(this)
+
+    public tooltip = new Tooltip(this)
 
     public current!: {
         x: number,

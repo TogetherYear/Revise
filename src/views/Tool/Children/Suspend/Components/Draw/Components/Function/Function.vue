@@ -2,7 +2,6 @@
 import { inject } from 'vue';
 import { Draw } from '../../Draw';
 
-
 const instance = inject('instance') as Draw
 
 const {
