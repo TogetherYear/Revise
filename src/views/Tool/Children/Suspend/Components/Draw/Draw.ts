@@ -91,6 +91,7 @@ class Draw {
             await this.SetDefaultTransform()
             await this.SetDefaultTarget()
             this.CreateLeafer()
+            await this.SetSearchTarget()
             this.ListenEvents()
             this.GenerateSearchTimrer()
             this.FrameUpdate()
@@ -143,7 +144,7 @@ class Draw {
                 draw: this
             })
             this.back = new BackFrame({
-                draw: this
+                draw: this,
             })
         }
     }
@@ -272,22 +273,46 @@ class Draw {
             this.searchTargetTimer = null
         }
         this.searchTargetTimer = setInterval(async () => {
-            const position = await Renderer.Automatic.GetMousePosition()
-            for (let w of this.target.window) {
-                if ((position.x > w.x && position.x < w.x + w.width) && (position.y > w.y && position.y < w.y + w.height)) {
-                    this.back.UpdateEraser(w.x, w.y - this.current.y, w.width, w.height)
-                    return
-                }
-            }
-            for (let m of this.target.monitor) {
-                if ((position.x > m.x && position.x < m.x + m.width) && (position.y > m.y && position.y < m.y + m.height)) {
-                    this.back.UpdateEraser(m.x, m.y - this.current.y, m.width, m.height)
-                    return
-                }
-            }
-            const m = await Renderer.Monitor.GetCurrentMouseMonitor()
-            this.back.UpdateEraser(m.x, m.y - this.current.y, m.width, m.height)
+            await this.SetSearchTarget()
         }, 100)
+    }
+
+    public async GetSearchTargetTransform() {
+        const position = await Renderer.Automatic.GetMousePosition()
+        for (let w of this.target.window) {
+            if ((position.x > w.x && position.x < w.x + w.width) && (position.y > w.y && position.y < w.y + w.height)) {
+                this.back.UpdateEraser(w.x, w.y - this.current.y, w.width, w.height)
+                return {
+                    x: w.x,
+                    y: w.y - this.current.y,
+                    width: w.width,
+                    height: w.height
+                }
+            }
+        }
+        for (let m of this.target.monitor) {
+            if ((position.x > m.x && position.x < m.x + m.width) && (position.y > m.y && position.y < m.y + m.height)) {
+                this.back.UpdateEraser(m.x, m.y - this.current.y, m.width, m.height)
+                return {
+                    x: m.x,
+                    y: m.y - this.current.y,
+                    width: m.width,
+                    height: m.height
+                }
+            }
+        }
+        const m = await Renderer.Monitor.GetCurrentMouseMonitor()
+        return {
+            x: m.x,
+            y: m.y - this.current.y,
+            width: m.width,
+            height: m.height
+        }
+    }
+
+    private async SetSearchTarget() {
+        const t = await this.GetSearchTargetTransform()
+        this.back.UpdateEraser(t.x, t.y, t.width, t.height)
     }
 
     public GetEraserTransform() {
