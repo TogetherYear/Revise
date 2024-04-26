@@ -3,6 +3,11 @@ import { Mathf } from "@/libs/Mathf"
 import fixIcon from '@/assets/images/fix.png'
 import saveIcon from '@/assets/images/save.png'
 import copyIcon from '@/assets/images/copy.png'
+import pathIcon from '@/assets/images/path.png'
+import grayIcon from '@/assets/images/gray.png'
+import eraserIcon from '@/assets/images/eraser.png'
+import printIcon from '@/assets/images/print.png'
+import cutIcon from '@/assets/images/cut.png'
 import { Draw } from "../../Draw"
 import { SuspendType } from "../../../../Type"
 import { Suspend } from "../../../../Suspend"
@@ -22,7 +27,7 @@ class Function {
     private transform = reactive({
         left: 0,
         top: 0,
-        width: 96,
+        width: 256,
         height: 32
     })
 
@@ -41,6 +46,31 @@ class Function {
             icon: copyIcon,
             label: "复制为base64",
             type: SuspendType.FunctionBtnType.Copy
+        },
+        {
+            icon: pathIcon,
+            label: "暂无",
+            type: SuspendType.FunctionBtnType.Path
+        },
+        {
+            icon: grayIcon,
+            label: "暂无",
+            type: SuspendType.FunctionBtnType.Path
+        },
+        {
+            icon: eraserIcon,
+            label: "暂无",
+            type: SuspendType.FunctionBtnType.Eraser
+        },
+        {
+            icon: printIcon,
+            label: "暂无",
+            type: SuspendType.FunctionBtnType.Print
+        },
+        {
+            icon: cutIcon,
+            label: "暂无",
+            type: SuspendType.FunctionBtnType.Cut
         },
     ])
 
@@ -73,7 +103,7 @@ class Function {
 
     public UpdateTransform() {
         const t = this.parent.GetEraserTransform()
-        this.transform.left = t.x + t.width - this.transform.width - 10
+        this.transform.left = Mathf.Clamp(10, Number.MAX_SAFE_INTEGER, t.x + t.width - this.transform.width - 10)
         this.transform.top = t.y + t.height - this.transform.height - 10
     }
 
@@ -86,6 +116,21 @@ class Function {
         }
         else if (e.type == SuspendType.FunctionBtnType.Copy) {
             this.ToCopy()
+        }
+        else if (e.type == SuspendType.FunctionBtnType.Path) {
+
+        }
+        else if (e.type == SuspendType.FunctionBtnType.Gray) {
+
+        }
+        else if (e.type == SuspendType.FunctionBtnType.Eraser) {
+
+        }
+        else if (e.type == SuspendType.FunctionBtnType.Print) {
+
+        }
+        else if (e.type == SuspendType.FunctionBtnType.Cut) {
+
         }
     }
 

@@ -2,7 +2,7 @@
     position: absolute;
     display: flex;
     flex-direction: row-reverse;
-    background: rgba(230, 230, 230, 1.0);
+    background: rgba(220, 220, 220, 1.0);
 
     .Item {
         position: relative;
@@ -12,7 +12,7 @@
         cursor: pointer;
 
         &:hover {
-            background: rgba(180, 180, 180, 1.0);
+            background: rgba(140, 140, 140, 1.0);
         }
 
         img {

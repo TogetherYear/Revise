@@ -54,9 +54,26 @@ class Draw {
         return this.leafer
     }
 
+    private moveMouse = {
+        w: false,
+        s: false,
+        a: false,
+        d: false
+    }
+
+    private moveFrame = {
+        w: false,
+        s: false,
+        a: false,
+        d: false
+    }
+
+    private isShowFunc = ref<boolean>(true)
+
     public InitStates() {
         return {
             dom: this.dom,
+            isShowFunc: this.isShowFunc,
         }
     }
 
@@ -71,6 +88,7 @@ class Draw {
             this.CreateLeafer()
             this.ListenEvents()
             this.GenerateSearchTimrer()
+            this.FrameUpdate()
         })
 
         onUnmounted(() => {
@@ -129,6 +147,69 @@ class Draw {
         this.leafer.on_(L.PointerEvent.DOWN, this.OnMouseDown, this)
         this.leafer.on_(L.PointerEvent.UP, this.OnMouseUp, this)
         this.leafer.on_(L.DragEvent.DRAG, this.OnDragging, this)
+        window.addEventListener('keydown', (e) => {
+            this.OnKeyDown(e)
+        })
+        window.addEventListener('keyup', (e) => {
+            this.OnKeyUp(e)
+        })
+    }
+
+    private OnKeyDown(e: KeyboardEvent) {
+        if (e.key == 'w' || e.key == 'W') {
+            this.moveMouse.w = true
+        }
+        else if (e.key == 'ArrowUp') {
+            this.moveFrame.w = true
+        }
+        else if (e.key == 's' || e.key == 'S') {
+            this.moveMouse.s = true
+        }
+        else if (e.key == 'ArrowDown') {
+            this.moveFrame.s = true
+        }
+        else if (e.key == 'a' || e.key == 'A') {
+            this.moveMouse.a = true
+        }
+        else if (e.key == 'ArrowLeft') {
+            this.moveFrame.a = true
+        }
+        else if (e.key == 'd' || e.key == 'D') {
+            this.moveMouse.d = true
+        }
+        else if (e.key == 'ArrowRight') {
+            this.moveFrame.d = true
+        }
+    }
+
+    private OnKeyUp(e: KeyboardEvent) {
+        if (e.key == 'w' || e.key == 'W') {
+            this.moveMouse.w = false
+        }
+        else if (e.key == 'ArrowUp') {
+            this.moveFrame.w = false
+        }
+        else if (e.key == 's' || e.key == 'S') {
+            this.moveMouse.s = false
+        }
+        else if (e.key == 'ArrowDown') {
+            this.moveFrame.s = false
+        }
+        else if (e.key == 'a' || e.key == 'A') {
+            this.moveMouse.a = false
+        }
+        else if (e.key == 'ArrowLeft') {
+            this.moveFrame.a = false
+        }
+        else if (e.key == 'd' || e.key == 'D') {
+            this.moveMouse.d = false
+        }
+        else if (e.key == 'ArrowRight') {
+            this.moveFrame.d = false
+        }
+        else if (e.key == 'Tab') {
+            this.isShowFunc.value = !this.isShowFunc.value
+        }
     }
 
     private async OnMouseDown(e: L.PointerEvent) {
@@ -200,6 +281,37 @@ class Draw {
             width: this.back.FE.width,
             height: this.back.FE.height,
         }
+    }
+
+    private FrameUpdate() {
+        requestAnimationFrame(async () => {
+            if (this.moveMouse.w || this.moveMouse.s || this.moveMouse.a || this.moveMouse.d) {
+                let deltaX = 0
+                let deltaY = 0
+                deltaX += this.moveMouse.a ? -1 : 0
+                deltaX += this.moveMouse.d ? 1 : 0
+                deltaY += this.moveMouse.w ? -1 : 0
+                deltaY += this.moveMouse.s ? 1 : 0
+                const position = await Renderer.Automatic.GetMousePosition()
+                await Renderer.Automatic.SetMousePosition(position.x + deltaX, position.y + deltaY)
+            }
+            if (this.moveFrame.w || this.moveFrame.s || this.moveFrame.a || this.moveFrame.d) {
+                let deltaX = 0
+                let deltaY = 0
+                deltaX += this.moveFrame.a ? -1 : 0
+                deltaX += this.moveFrame.d ? 1 : 0
+                deltaY += this.moveFrame.w ? -1 : 0
+                deltaY += this.moveFrame.s ? 1 : 0
+                const position = {
+                    x: this.back.FE.x,
+                    y: this.back.FE.y
+                }
+                this.back.UpdateEraser(position.x + deltaX, position.y + deltaY, this.back.FE.width, this.back.FE.height)
+                this.back.FE.x = position.x + deltaX
+                this.back.FE.y = position.y + deltaY
+            }
+            this.FrameUpdate()
+        })
     }
 }
 

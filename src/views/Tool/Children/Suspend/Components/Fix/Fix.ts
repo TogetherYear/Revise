@@ -20,7 +20,7 @@ class Fix {
 
     private currentOpacity = ref<number>(1.0)
 
-    private currentBlur = ref<number>(0)
+    private currentBlur = ref<number>(0.0)
 
     private isCtrl = false
 
@@ -68,8 +68,8 @@ class Fix {
         if (this.container.value) {
             this.container.value.appendChild(Suspend.Instance.currentImage)
         }
-        await Renderer.Widget.SetPosition(Suspend.Instance.currentTransform.x - 10, Suspend.Instance.currentTransform.y - 10)
-        await Renderer.Widget.SetSize(Suspend.Instance.currentTransform.width + 20, Suspend.Instance.currentTransform.height + 20)
+        await Renderer.Widget.SetPosition(Suspend.Instance.currentTransform.x - 6, Suspend.Instance.currentTransform.y - 6)
+        await Renderer.Widget.SetSize(Suspend.Instance.currentTransform.width + 12, Suspend.Instance.currentTransform.height + 12)
         await Renderer.Widget.SetAlwaysOnTop(true)
         await Renderer.Widget.Show()
     }
@@ -168,7 +168,7 @@ class Fix {
     }
 
     private OnChangeBlur(type: SuspendType.WheelDirection) {
-        this.currentBlur.value = Mathf.Clamp(0, 10, this.currentBlur.value - (type == SuspendType.WheelDirection.Down ? 1 : -1))
+        this.currentBlur.value = Mathf.Clamp(0, 1.0, this.currentBlur.value - (type == SuspendType.WheelDirection.Down ? 0.05 : -0.05))
     }
 
     private FrameUpdate() {
