@@ -326,30 +326,52 @@ class Draw {
 
     private FrameUpdate() {
         requestAnimationFrame(async () => {
-            if (this.moveMouse.w || this.moveMouse.s || this.moveMouse.a || this.moveMouse.d) {
-                let deltaX = 0
-                let deltaY = 0
-                deltaX += this.moveMouse.a ? -1 : 0
-                deltaX += this.moveMouse.d ? 1 : 0
-                deltaY += this.moveMouse.w ? -1 : 0
-                deltaY += this.moveMouse.s ? 1 : 0
-                const position = await Renderer.Automatic.GetMousePosition()
-                await Renderer.Automatic.SetMousePosition(position.x + deltaX, position.y + deltaY)
-            }
-            if (this.moveFrame.w || this.moveFrame.s || this.moveFrame.a || this.moveFrame.d) {
-                let deltaX = 0
-                let deltaY = 0
-                deltaX += this.moveFrame.a ? -1 : 0
-                deltaX += this.moveFrame.d ? 1 : 0
-                deltaY += this.moveFrame.w ? -1 : 0
-                deltaY += this.moveFrame.s ? 1 : 0
-                const position = {
-                    x: this.back.FE.x,
-                    y: this.back.FE.y
+            if (!this.isCtrl) {
+                if (this.moveMouse.w || this.moveMouse.s || this.moveMouse.a || this.moveMouse.d) {
+                    let deltaX = 0
+                    let deltaY = 0
+                    deltaX += this.moveMouse.a ? -1 : 0
+                    deltaX += this.moveMouse.d ? 1 : 0
+                    deltaY += this.moveMouse.w ? -1 : 0
+                    deltaY += this.moveMouse.s ? 1 : 0
+                    const position = await Renderer.Automatic.GetMousePosition()
+                    await Renderer.Automatic.SetMousePosition(position.x + deltaX, position.y + deltaY)
                 }
-                this.back.UpdateEraser(position.x + deltaX, position.y + deltaY, this.back.FE.width, this.back.FE.height)
-                this.back.FE.x = position.x + deltaX
-                this.back.FE.y = position.y + deltaY
+                if (this.moveFrame.w || this.moveFrame.s || this.moveFrame.a || this.moveFrame.d) {
+                    let deltaX = 0
+                    let deltaY = 0
+                    deltaX += this.moveFrame.a ? -1 : 0
+                    deltaX += this.moveFrame.d ? 1 : 0
+                    deltaY += this.moveFrame.w ? -1 : 0
+                    deltaY += this.moveFrame.s ? 1 : 0
+                    const position = {
+                        x: this.back.FE.x,
+                        y: this.back.FE.y
+                    }
+                    this.back.UpdateEraser(position.x + deltaX, position.y + deltaY, this.back.FE.width, this.back.FE.height)
+                }
+            }
+            else {
+                if (this.moveMouse.w || this.moveMouse.s || this.moveMouse.a || this.moveMouse.d) {
+                    let deltaX = 0
+                    let deltaY = 0
+                    deltaX += this.moveMouse.a ? -1 : 0
+                    deltaX += this.moveMouse.d ? 1 : 0
+                    deltaY += this.moveMouse.w ? -1 : 0
+                    deltaY += this.moveMouse.s ? 1 : 0
+                    const t = this.GetEraserTransform()
+                    this.back.UpdateEraser(deltaX > 0 ? t.x : t.x + deltaX, deltaY > 0 ? t.y : t.y + deltaY, deltaX > 0 ? t.width + deltaX : t.width - deltaX, deltaY > 0 ? t.height + deltaY : t.height - deltaY)
+                }
+                if (this.moveFrame.w || this.moveFrame.s || this.moveFrame.a || this.moveFrame.d) {
+                    let deltaX = 0
+                    let deltaY = 0
+                    deltaX += this.moveFrame.a ? -1 : 0
+                    deltaX += this.moveFrame.d ? 1 : 0
+                    deltaY += this.moveFrame.w ? -1 : 0
+                    deltaY += this.moveFrame.s ? 1 : 0
+                    const t = this.GetEraserTransform()
+                    this.back.UpdateEraser(deltaX < 0 ? t.x : t.x + deltaX, deltaY < 0 ? t.y : t.y + deltaY, deltaX < 0 ? t.width + deltaX : t.width - deltaX, deltaY < 0 ? t.height + deltaY : t.height - deltaY)
+                }
             }
             this.FrameUpdate()
         })
