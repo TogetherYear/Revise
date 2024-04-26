@@ -31,6 +31,25 @@ class Path extends Entity {
 
     public override OnDrawEnd(e: L.DragEvent) {
         this.O.back.currentDraw = null
+        this.OptimizePoints()
+    }
+
+    private OptimizePoints() {
+        const result: Array<number> = []
+        const points: Array<{ x: number, y: number }> = []
+        for (let i = 0; i < this.body.points.length; i += 2) {
+            points.push({ x: this.body.points[i], y: this.body.points[i + 1] })
+        }
+        result.push(points[0].x, points[0].y)
+        let current = points[0]
+        for (let i = 1; i < points.length - 1; i++) {
+            if (Math.pow(points[i].x - current.x, 2) + Math.pow(points[i].y - current.y, 2) > 4) {
+                result.push(points[i].x, points[i].y)
+                current = points[i]
+            }
+        }
+        result.push(...this.body.points.slice(-2))
+        this.body.points = result
     }
 
     public override Destroy() {
