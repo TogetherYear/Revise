@@ -3,7 +3,7 @@ import { Mathf } from "@/libs/Mathf"
 import fixIcon from '@/assets/images/fix.png'
 import saveIcon from '@/assets/images/save.png'
 import copyIcon from '@/assets/images/copy.png'
-import pathIcon from '@/assets/images/path.png'
+import drawIcon from '@/assets/images/draw.png'
 import grayIcon from '@/assets/images/gray.png'
 import eraserIcon from '@/assets/images/eraser.png'
 import printIcon from '@/assets/images/print.png'
@@ -12,6 +12,11 @@ import { Draw } from "../../Draw"
 import { SuspendType } from "../../../../Type"
 import { Suspend } from "../../../../Suspend"
 import { Time } from "@/libs/Time"
+
+import rectIcon from '@/assets/images/rect.png'
+import ellipseIcon from '@/assets/images/ellipse.png'
+import pathIcon from '@/assets/images/path.png'
+import lineIcon from '@/assets/images/line.png'
 
 class Function {
     public constructor(parent: Draw) {
@@ -48,14 +53,14 @@ class Function {
             type: SuspendType.FunctionBtnType.Copy
         },
         {
-            icon: pathIcon,
-            label: "暂无",
-            type: SuspendType.FunctionBtnType.Path
+            icon: drawIcon,
+            label: "绘制",
+            type: SuspendType.FunctionBtnType.Draw
         },
         {
             icon: grayIcon,
             label: "暂无",
-            type: SuspendType.FunctionBtnType.Path
+            type: SuspendType.FunctionBtnType.Gray
         },
         {
             icon: eraserIcon,
@@ -74,12 +79,42 @@ class Function {
         },
     ])
 
+    private draws = ref<Array<SuspendType.IDraw>>([
+        {
+            icon: rectIcon,
+            label: "矩形",
+            type: SuspendType.DrawType.Rect
+        },
+        {
+            icon: ellipseIcon,
+            label: "圆形",
+            type: SuspendType.DrawType.Ellipse
+        },
+        {
+            icon: pathIcon,
+            label: "路径",
+            type: SuspendType.DrawType.Path
+        },
+        {
+            icon: lineIcon,
+            label: "直线",
+            type: SuspendType.DrawType.Line
+        },
+    ])
+
+    private isOnDrawBtn = ref<boolean>(false)
+
+    public currentDrawType = ref<SuspendType.DrawType>(SuspendType.DrawType.None)
+
     public InitStates() {
         return {
             isShow: this.isShow,
             transform: this.transform,
             dom: this.dom,
             btns: this.btns,
+            draws: this.draws,
+            isOnDrawBtn: this.isOnDrawBtn,
+            currentDrawType: this.currentDrawType,
         }
     }
 
@@ -107,30 +142,30 @@ class Function {
         this.transform.top = t.y + t.height - this.transform.height - 10
     }
 
-    public OnClickBtn(e: SuspendType.IFunctionBtn) {
+    public async OnClickBtn(e: SuspendType.IFunctionBtn) {
         if (e.type == SuspendType.FunctionBtnType.Fix) {
-            this.ToFix()
+            await this.ToFix()
         }
         else if (e.type == SuspendType.FunctionBtnType.Save) {
-            this.ToSave()
+            await this.ToSave()
         }
         else if (e.type == SuspendType.FunctionBtnType.Copy) {
-            this.ToCopy()
+            await this.ToCopy()
         }
-        else if (e.type == SuspendType.FunctionBtnType.Path) {
-
+        else if (e.type == SuspendType.FunctionBtnType.Draw) {
+            await this.ToDraw()
         }
         else if (e.type == SuspendType.FunctionBtnType.Gray) {
-
+            await this.ToGray()
         }
         else if (e.type == SuspendType.FunctionBtnType.Eraser) {
-
+            await this.ToEraser()
         }
         else if (e.type == SuspendType.FunctionBtnType.Print) {
-
+            await this.ToPrint()
         }
         else if (e.type == SuspendType.FunctionBtnType.Cut) {
-
+            await this.ToCut()
         }
     }
 
@@ -194,6 +229,33 @@ class Function {
             await Renderer.Widget.SetSize(0, 0)
             await Renderer.Widget.Close()
         })
+    }
+
+    private async ToDraw() {
+        this.isOnDrawBtn.value = !this.isOnDrawBtn.value
+        if (!this.isOnDrawBtn.value) {
+            this.currentDrawType.value = SuspendType.DrawType.None
+        }
+    }
+
+    public OnClickDrawBtn(e: SuspendType.DrawType) {
+        this.currentDrawType.value = e
+    }
+
+    private async ToGray() {
+
+    }
+
+    private async ToEraser() {
+
+    }
+
+    private async ToPrint() {
+
+    }
+
+    private async ToCut() {
+
     }
 }
 

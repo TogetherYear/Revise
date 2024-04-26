@@ -3,6 +3,7 @@ import { BackCorner } from './BackCorner'
 import { Mathf } from '@/libs/Mathf'
 import { BackEdge } from './BackEdge'
 import { Draw } from '../Draw'
+import { SuspendType } from '../../../Type'
 
 type BackFrameOptions = {
     draw: Draw,
@@ -203,13 +204,15 @@ class BackFrame {
 
         }
         else {
-            e.stop()
-            e.stopDefault()
-            const delta = {
-                x: e.x - this.drag.startX,
-                y: e.y - this.drag.startY,
+            if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.None) {
+                e.stop()
+                e.stopDefault()
+                const delta = {
+                    x: e.x - this.drag.startX,
+                    y: e.y - this.drag.startY,
+                }
+                this.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY + delta.y, this.drag.eraserWidth, this.drag.eraserHeight)
             }
-            this.UpdateEraser(this.drag.eraserX + delta.x, this.drag.eraserY + delta.y, this.drag.eraserWidth, this.drag.eraserHeight)
         }
     }
 
@@ -218,15 +221,17 @@ class BackFrame {
 
         }
         else {
-            e.stop()
-            e.stopDefault()
-            this.drag.startX = e.x
-            this.drag.startY = e.y
-            this.drag.eraserX = this.FE.x
-            this.drag.eraserY = this.FE.y
-            this.drag.eraserWidth = this.FE.width
-            this.drag.eraserHeight = this.FE.height
-            this.UpdateCornerVisible(true)
+            if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.None) {
+                e.stop()
+                e.stopDefault()
+                this.drag.startX = e.x
+                this.drag.startY = e.y
+                this.drag.eraserX = this.FE.x
+                this.drag.eraserY = this.FE.y
+                this.drag.eraserWidth = this.FE.width
+                this.drag.eraserHeight = this.FE.height
+                this.UpdateCornerVisible(true)
+            }
         }
     }
 
@@ -235,9 +240,11 @@ class BackFrame {
 
         }
         else {
-            e.stop()
-            e.stopDefault()
-            this.UpdateCornerVisible(true)
+            if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.None) {
+                e.stop()
+                e.stopDefault()
+                this.UpdateCornerVisible(true)
+            }
         }
     }
 

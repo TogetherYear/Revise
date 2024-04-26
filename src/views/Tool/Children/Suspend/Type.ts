@@ -5,11 +5,25 @@ export namespace SuspendType {
         type: FunctionBtnType
     }
 
+    export interface IDraw {
+        icon: string,
+        label: string,
+        type: DrawType
+    }
+
+    export enum DrawType {
+        None,
+        Rect,
+        Ellipse,
+        Path,
+        Line
+    }
+
     export enum FunctionBtnType {
         Fix,
         Save,
         Copy,
-        Path,
+        Draw,
         Gray,
         Eraser,
         Print,
