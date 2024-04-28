@@ -184,13 +184,11 @@ class BackCorner {
         this.drag.eraserY = this.O.backFrame.FE.y
         this.drag.eraserWidth = this.O.backFrame.FE.width
         this.drag.eraserHeight = this.O.backFrame.FE.height
-        this.O.backFrame.UpdateCornerVisible(true)
     }
 
     public OnDragEnd(e: L.DragEvent) {
         e.stop()
         e.stopDefault()
-        this.O.backFrame.UpdateCornerVisible(true)
     }
 }
 

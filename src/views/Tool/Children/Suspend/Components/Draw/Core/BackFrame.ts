@@ -133,6 +133,7 @@ class BackFrame {
         this.frameEraser.on_(L.DragEvent.DRAG, this.OnDragging, this)
         this.frameEraser.on_(L.DragEvent.START, this.OnDragStart, this)
         this.frameEraser.on_(L.DragEvent.END, this.OnDragEnd, this)
+        this.frameBack.on_(L.PointerEvent.MOVE, this.OnMove, this)
     }
 
     private CreateEdge() {
@@ -215,7 +216,7 @@ class BackFrame {
         }
     }
 
-    public OnDragging(e: L.DragEvent) {
+    private OnDragging(e: L.DragEvent) {
         if (this.O.draw.isFirstDown) {
 
         }
@@ -235,7 +236,7 @@ class BackFrame {
         }
     }
 
-    public OnDragStart(e: L.DragEvent) {
+    private OnDragStart(e: L.DragEvent) {
         if (this.O.draw.isFirstDown) {
 
         }
@@ -249,7 +250,6 @@ class BackFrame {
                 this.drag.eraserY = this.FE.y
                 this.drag.eraserWidth = this.FE.width
                 this.drag.eraserHeight = this.FE.height
-                this.UpdateCornerVisible(true)
             }
             else {
                 this.OnDrawDragStart(e)
@@ -257,7 +257,7 @@ class BackFrame {
         }
     }
 
-    public OnDragEnd(e: L.DragEvent) {
+    private OnDragEnd(e: L.DragEvent) {
         if (this.O.draw.isFirstDown) {
 
         }
@@ -265,7 +265,7 @@ class BackFrame {
             e.stop()
             e.stopDefault()
             if (this.O.draw.func.currentDrawType.value == SuspendType.DrawType.None) {
-                this.UpdateCornerVisible(true)
+
             }
             else {
                 this.OnDrawDragEnd(e)
@@ -273,7 +273,43 @@ class BackFrame {
         }
     }
 
-    public OnAreaDragging(e: L.DragEvent) {
+    public OnMove(e: L.PointerEvent) {
+        if (e.x < this.FE.x) {
+            if (e.y < this.FE.y) {
+                this.frameBack.cursor = 'nw-resize'
+            }
+            else if (e.y > this.FE.y + this.FE.height) {
+                this.frameBack.cursor = 'sw-resize'
+            }
+            else {
+                this.frameBack.cursor = 'w-resize'
+            }
+        }
+        else if (e.x > this.FE.x + this.FE.width) {
+            if (e.y < this.FE.y) {
+                this.frameBack.cursor = 'ne-resize'
+            }
+            else if (e.y > this.FE.y + this.FE.height) {
+                this.frameBack.cursor = 'se-resize'
+            }
+            else {
+                this.frameBack.cursor = 'e-resize'
+            }
+        }
+        else {
+            if (e.y < this.FE.y) {
+                this.frameBack.cursor = 'n-resize'
+            }
+            else if (e.y > this.FE.y + this.FE.height) {
+                this.frameBack.cursor = 's-resize'
+            }
+            else {
+                this.frameBack.cursor = 'default'
+            }
+        }
+    }
+
+    private OnAreaDragging(e: L.DragEvent) {
         e.stop()
         e.stopDefault()
         const delta = {
@@ -343,7 +379,7 @@ class BackFrame {
         }
     }
 
-    public OnAreaDragStart(e: L.DragEvent) {
+    private OnAreaDragStart(e: L.DragEvent) {
         e.stop()
         e.stopDefault()
         this.CalculateAreaDirection(e)
@@ -355,7 +391,7 @@ class BackFrame {
         this.drag.eraserHeight = this.FE.height
     }
 
-    public OnAreaDragEnd(e: L.DragEvent) {
+    private OnAreaDragEnd(e: L.DragEvent) {
         e.stop()
         e.stopDefault()
         this.areaDirection = SuspendType.AreaDirection.None
@@ -390,6 +426,9 @@ class BackFrame {
             }
             else if (e.y > this.FE.y + this.FE.height) {
                 this.areaDirection = SuspendType.AreaDirection.MidBottom
+            }
+            else {
+                this.areaDirection = SuspendType.AreaDirection.None
             }
         }
     }

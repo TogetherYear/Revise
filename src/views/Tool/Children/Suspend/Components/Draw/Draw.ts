@@ -249,7 +249,6 @@ class Draw {
         this.func.isShow.value = true
     }
 
-
     public OnDragging(e: L.DragEvent) {
         if (this.isFirstDown && this.isMouseDown) {
             const delta = {
@@ -261,10 +260,6 @@ class Draw {
         else {
 
         }
-    }
-
-    public OnDragEnd(e: L.DragEvent) {
-        this.back.UpdateCornerVisible(true)
     }
 
     private GenerateSearchTimrer() {
