@@ -89,6 +89,8 @@ class BackFrame {
 
     public hasDraws: Array<Entity> = []
 
+    private areaDirection = SuspendType.AreaDirection.None
+
     private Create() {
         this.frame = new L.Frame({
             x: 0,
@@ -125,6 +127,9 @@ class BackFrame {
     }
 
     private ListenEvents() {
+        this.frameBack.on_(L.DragEvent.DRAG, this.OnAreaDragging, this)
+        this.frameBack.on_(L.DragEvent.START, this.OnAreaDragStart, this)
+        this.frameBack.on_(L.DragEvent.END, this.OnAreaDragEnd, this)
         this.frameEraser.on_(L.DragEvent.DRAG, this.OnDragging, this)
         this.frameEraser.on_(L.DragEvent.START, this.OnDragStart, this)
         this.frameEraser.on_(L.DragEvent.END, this.OnDragEnd, this)
@@ -264,6 +269,127 @@ class BackFrame {
             }
             else {
                 this.OnDrawDragEnd(e)
+            }
+        }
+    }
+
+    public OnAreaDragging(e: L.DragEvent) {
+        e.stop()
+        e.stopDefault()
+        const delta = {
+            x: e.x - this.drag.startX,
+            y: e.y - this.drag.startY,
+        }
+        if (this.areaDirection == SuspendType.AreaDirection.LeftTop) {
+            const width = this.drag.eraserX - this.drag.startX + this.drag.eraserWidth - delta.x
+            const height = this.drag.eraserY - this.drag.startY + this.drag.eraserHeight - delta.y
+            if (e.x < this.drag.eraserX + this.drag.eraserWidth && e.y < this.drag.eraserY + this.drag.eraserHeight) {
+                this.UpdateEraser(e.x, e.y, width, height)
+            }
+            else {
+                this.UpdateEraser(this.drag.eraserX + this.drag.eraserWidth, this.drag.eraserY + this.drag.eraserHeight, 0, 0)
+            }
+        }
+        else if (this.areaDirection == SuspendType.AreaDirection.LeftMid) {
+            const width = this.drag.eraserX - this.drag.startX + this.drag.eraserWidth - delta.x
+            if (e.x < this.drag.eraserX + this.drag.eraserWidth) {
+                this.UpdateEraser(e.x, this.drag.eraserY, width, this.drag.eraserHeight)
+            }
+            else {
+                this.UpdateEraser(this.drag.eraserX + this.drag.eraserWidth, this.drag.eraserY, 0, this.drag.eraserHeight)
+            }
+        }
+        else if (this.areaDirection == SuspendType.AreaDirection.LeftBottom) {
+            const width = this.drag.eraserX - this.drag.startX + this.drag.eraserWidth - delta.x
+            const height = e.y - this.drag.eraserY
+            if (e.x < this.drag.eraserX + this.drag.eraserWidth) {
+                this.UpdateEraser(e.x, this.drag.eraserY, width, height)
+            }
+            else {
+                this.UpdateEraser(this.drag.eraserX + this.drag.eraserWidth, this.drag.eraserY, 0, 0)
+            }
+        }
+        else if (this.areaDirection == SuspendType.AreaDirection.MidTop) {
+            const height = this.drag.eraserY - e.y + this.drag.eraserHeight
+            if (e.y < this.drag.eraserY + this.drag.eraserHeight) {
+                this.UpdateEraser(this.drag.eraserX, e.y, this.drag.eraserWidth, height)
+            }
+            else {
+                this.UpdateEraser(this.drag.eraserX, this.drag.eraserY + this.drag.eraserHeight, this.drag.eraserWidth, 0)
+            }
+        }
+        else if (this.areaDirection == SuspendType.AreaDirection.MidBottom) {
+            const height = e.y - this.drag.eraserY
+            this.UpdateEraser(this.drag.eraserX, this.drag.eraserY, this.drag.eraserWidth, height)
+        }
+        else if (this.areaDirection == SuspendType.AreaDirection.RightTop) {
+            const width = e.x - this.drag.eraserX
+            const height = this.drag.eraserY - this.drag.startY + this.drag.eraserHeight - delta.y
+            if (e.y < this.drag.eraserY + this.drag.eraserHeight) {
+                this.UpdateEraser(this.drag.eraserX, e.y, width, height)
+            }
+            else {
+                this.UpdateEraser(this.drag.eraserX, this.drag.eraserY + this.drag.eraserHeight, 0, 0)
+            }
+        }
+        else if (this.areaDirection == SuspendType.AreaDirection.RightMid) {
+            const width = e.x - this.drag.eraserX
+            this.UpdateEraser(this.drag.eraserX, this.drag.eraserY, width, this.drag.eraserHeight)
+        }
+        else if (this.areaDirection == SuspendType.AreaDirection.RightBottom) {
+            const width = e.x - this.drag.eraserX
+            const height = e.y - this.drag.eraserY
+            this.UpdateEraser(this.drag.eraserX, this.drag.eraserY, width, height)
+        }
+    }
+
+    public OnAreaDragStart(e: L.DragEvent) {
+        e.stop()
+        e.stopDefault()
+        this.CalculateAreaDirection(e)
+        this.drag.startX = e.x
+        this.drag.startY = e.y
+        this.drag.eraserX = this.FE.x
+        this.drag.eraserY = this.FE.y
+        this.drag.eraserWidth = this.FE.width
+        this.drag.eraserHeight = this.FE.height
+    }
+
+    public OnAreaDragEnd(e: L.DragEvent) {
+        e.stop()
+        e.stopDefault()
+        this.areaDirection = SuspendType.AreaDirection.None
+    }
+
+    private CalculateAreaDirection(e: L.DragEvent) {
+        if (e.x < this.FE.x) {
+            if (e.y < this.FE.y) {
+                this.areaDirection = SuspendType.AreaDirection.LeftTop
+            }
+            else if (e.y > this.FE.y + this.FE.height) {
+                this.areaDirection = SuspendType.AreaDirection.LeftBottom
+            }
+            else {
+                this.areaDirection = SuspendType.AreaDirection.LeftMid
+            }
+        }
+        else if (e.x > this.FE.x + this.FE.width) {
+            if (e.y < this.FE.y) {
+                this.areaDirection = SuspendType.AreaDirection.RightTop
+            }
+            else if (e.y > this.FE.y + this.FE.height) {
+                this.areaDirection = SuspendType.AreaDirection.RightBottom
+            }
+            else {
+                this.areaDirection = SuspendType.AreaDirection.RightMid
+            }
+        }
+        else {
+            if (e.y < this.FE.y) {
+                this.areaDirection = SuspendType.AreaDirection.MidTop
+            }
+            else if (e.y > this.FE.y + this.FE.height) {
+                this.areaDirection = SuspendType.AreaDirection.MidBottom
             }
         }
     }

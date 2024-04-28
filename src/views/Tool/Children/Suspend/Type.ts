@@ -13,6 +13,18 @@ export namespace SuspendType {
         type: DrawType
     }
 
+    export enum AreaDirection {
+        None,
+        LeftTop,
+        LeftMid,
+        LeftBottom,
+        MidTop,
+        MidBottom,
+        RightTop,
+        RightMid,
+        RightBottom
+    }
+
     export enum DrawType {
         None,
         Rect,
