@@ -326,7 +326,7 @@ class BackFrame {
                 this.UpdateEraser(this.drag.eraserX + this.drag.eraserWidth, this.drag.eraserY + this.drag.eraserHeight, 0, 0)
             }
         }
-        else if (this.areaDirection == SuspendType.AreaDirection.LeftMid) {
+        else if (this.areaDirection == SuspendType.AreaDirection.LeftCenter) {
             const width = this.drag.eraserX - this.drag.startX + this.drag.eraserWidth - delta.x
             if (e.x < this.drag.eraserX + this.drag.eraserWidth) {
                 this.UpdateEraser(e.x, this.drag.eraserY, width, this.drag.eraserHeight)
@@ -345,7 +345,7 @@ class BackFrame {
                 this.UpdateEraser(this.drag.eraserX + this.drag.eraserWidth, this.drag.eraserY, 0, 0)
             }
         }
-        else if (this.areaDirection == SuspendType.AreaDirection.MidTop) {
+        else if (this.areaDirection == SuspendType.AreaDirection.CenterTop) {
             const height = this.drag.eraserY - e.y + this.drag.eraserHeight
             if (e.y < this.drag.eraserY + this.drag.eraserHeight) {
                 this.UpdateEraser(this.drag.eraserX, e.y, this.drag.eraserWidth, height)
@@ -354,7 +354,7 @@ class BackFrame {
                 this.UpdateEraser(this.drag.eraserX, this.drag.eraserY + this.drag.eraserHeight, this.drag.eraserWidth, 0)
             }
         }
-        else if (this.areaDirection == SuspendType.AreaDirection.MidBottom) {
+        else if (this.areaDirection == SuspendType.AreaDirection.CenterBottom) {
             const height = e.y - this.drag.eraserY
             this.UpdateEraser(this.drag.eraserX, this.drag.eraserY, this.drag.eraserWidth, height)
         }
@@ -368,7 +368,7 @@ class BackFrame {
                 this.UpdateEraser(this.drag.eraserX, this.drag.eraserY + this.drag.eraserHeight, 0, 0)
             }
         }
-        else if (this.areaDirection == SuspendType.AreaDirection.RightMid) {
+        else if (this.areaDirection == SuspendType.AreaDirection.RightCenter) {
             const width = e.x - this.drag.eraserX
             this.UpdateEraser(this.drag.eraserX, this.drag.eraserY, width, this.drag.eraserHeight)
         }
@@ -406,7 +406,7 @@ class BackFrame {
                 this.areaDirection = SuspendType.AreaDirection.LeftBottom
             }
             else {
-                this.areaDirection = SuspendType.AreaDirection.LeftMid
+                this.areaDirection = SuspendType.AreaDirection.LeftCenter
             }
         }
         else if (e.x > this.FE.x + this.FE.width) {
@@ -417,15 +417,15 @@ class BackFrame {
                 this.areaDirection = SuspendType.AreaDirection.RightBottom
             }
             else {
-                this.areaDirection = SuspendType.AreaDirection.RightMid
+                this.areaDirection = SuspendType.AreaDirection.RightCenter
             }
         }
         else {
             if (e.y < this.FE.y) {
-                this.areaDirection = SuspendType.AreaDirection.MidTop
+                this.areaDirection = SuspendType.AreaDirection.CenterTop
             }
             else if (e.y > this.FE.y + this.FE.height) {
-                this.areaDirection = SuspendType.AreaDirection.MidBottom
+                this.areaDirection = SuspendType.AreaDirection.CenterBottom
             }
             else {
                 this.areaDirection = SuspendType.AreaDirection.None

@@ -16,12 +16,12 @@ export namespace SuspendType {
     export enum AreaDirection {
         None,
         LeftTop,
-        LeftMid,
+        LeftCenter,
         LeftBottom,
-        MidTop,
-        MidBottom,
+        CenterTop,
+        CenterBottom,
         RightTop,
-        RightMid,
+        RightCenter,
         RightBottom
     }
 
