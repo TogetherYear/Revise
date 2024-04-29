@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted } from "vue"
+import { onMounted, onUnmounted, reactive } from "vue"
 import { Draw } from "../../Draw"
 
 class Tooltip {
@@ -8,9 +8,16 @@ class Tooltip {
 
     private parent!: Draw
 
+    private sizeTransform = reactive({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    })
+
     public InitStates() {
         return {
-
+            sizeTransform: this.sizeTransform,
         }
     }
 
@@ -32,8 +39,12 @@ class Tooltip {
 
     }
 
-    public UpdateTransform() {
-
+    public UpdateSizeTransform() {
+        const t = this.parent.GetEraserTransform()
+        this.sizeTransform.x = t.x + 6
+        this.sizeTransform.y = t.y - 26
+        this.sizeTransform.width = t.width
+        this.sizeTransform.height = t.height
     }
 }
 

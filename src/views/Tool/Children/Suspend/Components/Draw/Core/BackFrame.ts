@@ -208,6 +208,7 @@ class BackFrame {
         this.edges.top?.UpdatePosition()
         this.edges.bottom?.UpdatePosition()
         this.O.draw.func.UpdateTransform()
+        this.O.draw.tooltip.UpdateSizeTransform()
         if (this.FE.width < 300 || this.FE.height < 300) {
             this.UpdateCornerVisible(false)
         }

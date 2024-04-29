@@ -1,3 +1,40 @@
 .Tooltip {
     pointer-events: none;
+
+    .Size {
+        position: absolute;
+        height: 20px;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid #888888;
+        width: min-content;
+        color: #eeeeee;
+        white-space: nowrap;
+        font-size: 12px;
+        padding-left: 8px;
+        padding-right: 8px;
+        letter-spacing: 1px;
+
+        .A {
+            position: relative;
+            display: inline-block;
+            line-height: 20px;
+            height: 20px;
+            top: 0;
+        }
+
+        .B {
+            @extend .A;
+            margin-left: 16px;
+
+            &::before {
+                position: absolute;
+                content: "";
+                width: 1px;
+                height: 100%;
+                left: -8px;
+                top: 0;
+                background: #888888;
+            }
+        }
+    }
 }

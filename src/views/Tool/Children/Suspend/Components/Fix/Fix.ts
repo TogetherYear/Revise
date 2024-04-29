@@ -166,8 +166,8 @@ class Fix {
     private async OnChangeSize(type: SuspendType.WheelDirection) {
         this.currentScale.value = Mathf.Clamp(0.1, 10, this.currentScale.value - (type == SuspendType.WheelDirection.Down ? 0.1 : -0.1))
         const newSize = {
-            width: Suspend.Instance.currentTransform.width * this.currentScale.value,
-            height: Suspend.Instance.currentTransform.height * this.currentScale.value,
+            width: (Suspend.Instance.currentTransform.width + 12) * this.currentScale.value,
+            height: (Suspend.Instance.currentTransform.height + 12) * this.currentScale.value,
         }
         await Renderer.Widget.SetSize(newSize.width, newSize.height)
     }

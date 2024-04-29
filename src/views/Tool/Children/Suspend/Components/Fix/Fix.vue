@@ -19,19 +19,18 @@ instance.Run()
 
 <template>
     <div class="Fix" ref="dom" data-tauri-drag-region>
-        <span class="Content" ref="content">
+        <span class="Content" ref="content" :style="{ opacity: currentOpacity, filter: `blur(${currentBlur * 10}px)` }">
             <span class="Container" ref="container"
-                :style="{ opacity: currentOpacity, filter: `blur(${currentBlur * 10}px)`, transform: `scale(${currentImageScale}) rotate(${currentRotation}deg)` }">
-            </span>
+                :style="{ transform: `scale(${currentImageScale}) rotate(${currentRotation}deg)` }"></span>
         </span>
         <span class="Scale" v-show="isShowInfo">
-            <span :style="{ color: '#dddddd' }">大小：{{ ~~(currentScale * 100) }}%</span>
+            <span>大小：{{ ~~(currentScale * 100) }}%</span>
             <span>&nbsp;&nbsp;&nbsp;</span>
-            <span :style="{ color: '#dddddd' }">透明度：{{ ~~(currentOpacity * 100) }}%</span>
+            <span>透明度：{{ ~~(currentOpacity * 100) }}%</span>
             <span>&nbsp;&nbsp;&nbsp;</span>
-            <span :style="{ color: '#dddddd' }">模糊度：{{ ~~(currentBlur * 100) }}%</span>
+            <span>模糊度：{{ ~~(currentBlur * 100) }}%</span>
             <span>&nbsp;&nbsp;&nbsp;</span>
-            <span :style="{ color: '#dddddd' }">旋转度：{{ currentRotation }}°</span>
+            <span>旋转度：{{ currentRotation }}°</span>
         </span>
     </div>
 </template>
