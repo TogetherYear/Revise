@@ -180,26 +180,6 @@ class Fix {
         this.currentBlur.value = Mathf.Clamp(0, 1.0, this.currentBlur.value - (type == SuspendType.WheelDirection.Down ? 0.05 : -0.05))
     }
 
-    private GetTransformPosition(x: number, y: number, angle: number) {
-        const _x = Math.cos(angle) * x - Math.sin(angle) * y
-        const _y = Math.sin(angle) * x + Math.cos(angle) * y
-        return {
-            x: _x,
-            y: _y,
-        }
-    }
-
-    private GetOutBound(points: Array<{ x: number, y: number }>) {
-        const xs = points.map(p => p.x)
-        const ys = points.map(p => p.y)
-        return {
-            minX: Math.min(...xs),
-            minY: Math.min(...ys),
-            maxX: Math.max(...xs),
-            maxY: Math.max(...ys),
-        }
-    }
-
     private OnChangeRotation(type: SuspendType.WheelDirection) {
 
     }
