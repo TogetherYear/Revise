@@ -10,14 +10,67 @@
 
     .Content {
         position: absolute;
-        width: 100%;
-        height: 100%;
+        width: calc(100% - 12px);
+        height: calc(100% - 12px);
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
         margin: auto;
         pointer-events: none;
+        transform-origin: center center;
+        animation: 1s linear 0s 1 ShadowAnim;
+        box-shadow: 0px 0px 6px 0px #000000;
+        border: none;
+        overflow: hidden;
+        background-color: #2b2b2b;
+
+        .Container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            box-shadow: 0px 0px 6px 0px #000000;
+        }
+    }
+
+    @keyframes ShadowAnim {
+        0% {
+            box-shadow: none;
+            border: 1.5px solid #ff0000;
+        }
+
+        32% {
+            box-shadow: none;
+            border: 1.5px solid #ff0000;
+        }
+
+        33% {
+            box-shadow: none;
+            border: 1.5px solid #ffff00;
+        }
+
+        65% {
+            box-shadow: none;
+            border: 1.5px solid #ffff00;
+        }
+
+        66% {
+            box-shadow: none;
+            border: 1.5px solid #00ff00;
+        }
+
+        99% {
+            box-shadow: none;
+            border: 1.5px solid #00ff00;
+        }
+
+        100% {
+            box-shadow: 0px 0px 10px 0px #000000;
+            border: none;
+        }
+
     }
 
     .Scale {

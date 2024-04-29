@@ -8,6 +8,8 @@ class Fix {
 
     }
 
+    private content = ref<HTMLSpanElement | null>(null)
+
     private container = ref<HTMLSpanElement | null>(null)
 
     private dom = ref<HTMLSpanElement | null>(null)
@@ -22,6 +24,10 @@ class Fix {
 
     private currentBlur = ref<number>(0.0)
 
+    private currentRotation = ref<number>(0)
+
+    private currentImageScale = ref<number>(1.0)
+
     private isCtrl = false
 
     private isAlt = false
@@ -35,12 +41,15 @@ class Fix {
 
     public InitStates() {
         return {
+            content: this.content,
             dom: this.dom,
             currentScale: this.currentScale,
             container: this.container,
             isShowInfo: this.isShowInfo,
             currentOpacity: this.currentOpacity,
             currentBlur: this.currentBlur,
+            currentRotation: this.currentRotation,
+            currentImageScale: this.currentImageScale,
         }
     }
 
@@ -140,7 +149,7 @@ class Fix {
             this.OnChangeBlur(type)
         }
         else if (this.isCtrl && this.isAlt) {
-
+            this.OnChangeRotation(type)
         }
         else {
             await this.OnChangeSize(type)
@@ -169,6 +178,30 @@ class Fix {
 
     private OnChangeBlur(type: SuspendType.WheelDirection) {
         this.currentBlur.value = Mathf.Clamp(0, 1.0, this.currentBlur.value - (type == SuspendType.WheelDirection.Down ? 0.05 : -0.05))
+    }
+
+    private GetTransformPosition(x: number, y: number, angle: number) {
+        const _x = Math.cos(angle) * x - Math.sin(angle) * y
+        const _y = Math.sin(angle) * x + Math.cos(angle) * y
+        return {
+            x: _x,
+            y: _y,
+        }
+    }
+
+    private GetOutBound(points: Array<{ x: number, y: number }>) {
+        const xs = points.map(p => p.x)
+        const ys = points.map(p => p.y)
+        return {
+            minX: Math.min(...xs),
+            minY: Math.min(...ys),
+            maxX: Math.max(...xs),
+            maxY: Math.max(...ys),
+        }
+    }
+
+    private OnChangeRotation(type: SuspendType.WheelDirection) {
+
     }
 
     private FrameUpdate() {

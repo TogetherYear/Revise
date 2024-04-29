@@ -4,11 +4,14 @@ import { Fix } from './Fix';
 const instance = new Fix()
 const {
     dom,
+    content,
     container,
     currentScale,
     isShowInfo,
     currentOpacity,
     currentBlur,
+    currentRotation,
+    currentImageScale,
 } = instance.InitStates()
 instance.InitHooks()
 instance.Run()
@@ -16,14 +19,19 @@ instance.Run()
 
 <template>
     <div class="Fix" ref="dom" data-tauri-drag-region>
-        <span :style="{ opacity: currentOpacity, filter: `blur(${currentBlur * 10}px)` }" class="Content"
-            ref="container"></span>
+        <span class="Content" ref="content">
+            <span class="Container" ref="container"
+                :style="{ opacity: currentOpacity, filter: `blur(${currentBlur * 10}px)`, transform: `scale(${currentImageScale}) rotate(${currentRotation}deg)` }">
+            </span>
+        </span>
         <span class="Scale" v-show="isShowInfo">
             <span :style="{ color: '#dddddd' }">大小：{{ ~~(currentScale * 100) }}%</span>
             <span>&nbsp;&nbsp;&nbsp;</span>
             <span :style="{ color: '#dddddd' }">透明度：{{ ~~(currentOpacity * 100) }}%</span>
             <span>&nbsp;&nbsp;&nbsp;</span>
             <span :style="{ color: '#dddddd' }">模糊度：{{ ~~(currentBlur * 100) }}%</span>
+            <span>&nbsp;&nbsp;&nbsp;</span>
+            <span :style="{ color: '#dddddd' }">旋转度：{{ currentRotation }}°</span>
         </span>
     </div>
 </template>
