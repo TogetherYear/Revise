@@ -451,7 +451,7 @@ declare namespace Renderer {
         export function ConvertImageFormat(originPath: string, convertPath: string, options?: IT.ImageOptions): Promise<void>
 
         /**
-         * 将base64图片保存为文件
+         * 将base64图片保存为文件 webp 格式
          */
         export function SaveFileFromBase64(base64: string, path: string): Promise<string>
     }

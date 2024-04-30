@@ -201,25 +201,25 @@ class Function {
     }
 
     private async ToSave() {
-        this.ToGetCanvasBase64(async (base64, t) => {
-            const path = await Renderer.Resource.GetPathByName(`Images/Revise_${Time.GetTime(null, true, '-', '-')}.webp`, false)
-            const result = await Renderer.Resource.GetSaveResources({
-                title: "选择保存图片路径",
-                defaultPath: path,
-                filters: [
-                    {
-                        name: '去码头整点薯条',
-                        extensions: ['webp']
-                    }
-                ]
-            })
-            if (result) {
+        const path = await Renderer.Resource.GetPathByName(`Images/Revise_${Time.GetTime(null, true, '-', '-')}.webp`, false)
+        const result = await Renderer.Resource.GetSaveResources({
+            title: "选择保存图片路径",
+            defaultPath: path,
+            filters: [
+                {
+                    name: '去码头整点薯条',
+                    extensions: ['webp']
+                }
+            ]
+        })
+        if (result) {
+            this.ToGetCanvasBase64(async (base64, t) => {
                 await Renderer.Event.Emit(Renderer.Event.TauriEvent.TAURI, { event: Renderer.RendererEvent.Suspend, extra: { type: 'save', format: 'file', url: result } })
                 await Renderer.Image.SaveFileFromBase64(base64, result)
                 await Renderer.Widget.SetSize(0, 0)
                 await Renderer.Widget.Close()
-            }
-        })
+            })
+        }
     }
 
     private async ToCopy() {

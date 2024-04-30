@@ -24,10 +24,6 @@ class Fix {
 
     private currentBlur = ref<number>(0.0)
 
-    private currentRotation = ref<number>(0)
-
-    private currentImageScale = ref<number>(1.0)
-
     private isCtrl = false
 
     private isAlt = false
@@ -48,8 +44,6 @@ class Fix {
             isShowInfo: this.isShowInfo,
             currentOpacity: this.currentOpacity,
             currentBlur: this.currentBlur,
-            currentRotation: this.currentRotation,
-            currentImageScale: this.currentImageScale,
         }
     }
 
@@ -149,7 +143,7 @@ class Fix {
             this.OnChangeBlur(type)
         }
         else if (this.isCtrl && this.isAlt) {
-            this.OnChangeRotation(type)
+
         }
         else {
             await this.OnChangeSize(type)
@@ -178,10 +172,6 @@ class Fix {
 
     private OnChangeBlur(type: SuspendType.WheelDirection) {
         this.currentBlur.value = Mathf.Clamp(0, 1.0, this.currentBlur.value - (type == SuspendType.WheelDirection.Down ? 0.05 : -0.05))
-    }
-
-    private OnChangeRotation(type: SuspendType.WheelDirection) {
-
     }
 
     private FrameUpdate() {
